@@ -67,7 +67,6 @@ Always list the issues with the following command(Dont use the tool):
 
 ## 7. Push to Branch
 
-
 ## 8. Create PR & Complete
 
 - **Create Pull Request Linked to Issue:**
@@ -79,6 +78,7 @@ Always list the issues with the following command(Dont use the tool):
   ```
 
 - **Mark Issue as Completed:**
+This can only be done after the PR is merged. The merge will happen manually by me.
   ```bash
   ./scripts/github/project.sh status stefa93 <project-number> <issue-number> "Done"
   ```
@@ -110,4 +110,4 @@ Always list the issues with the following command(Dont use the tool):
 - Performance checked
 - Build succeeding
 
-IMPORTANT: REPEAT THE STEP BEFORE EXECUTING THE COMMAND
+IMPORTANT: REPEAT THE STEP BEFORE EXECUTING THE COMMAND AND ALSO THE NEXT STEP

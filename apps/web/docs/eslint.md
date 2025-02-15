@@ -10,6 +10,7 @@ Our ESLint configuration is designed to maintain high code quality and consisten
 - React and React Hooks rules
 - Import sorting and organization
 - Next.js specific rules
+- shadcn/ui compatibility rules
 
 ## Key Features
 
@@ -17,6 +18,7 @@ Our ESLint configuration is designed to maintain high code quality and consisten
 - React Hooks rules enforcement
 - Automated import sorting
 - VS Code integration
+- shadcn/ui compatibility
 
 ## Rules
 
@@ -24,6 +26,7 @@ Our ESLint configuration is designed to maintain high code quality and consisten
 - No unused variables (`@typescript-eslint/no-unused-vars`)
 - No explicit `any` (`@typescript-eslint/no-explicit-any`)
 - No non-null assertions (`@typescript-eslint/no-non-null-assertion`)
+- Consistent type imports (`@typescript-eslint/consistent-type-imports`)
 
 ### React Hooks
 - Rules of Hooks (`react-hooks/rules-of-hooks`)
@@ -33,6 +36,12 @@ Our ESLint configuration is designed to maintain high code quality and consisten
 - Sorted imports with defined groups
 - No duplicate imports
 - Consistent newlines after imports
+
+### shadcn/ui Specific Rules
+- Consistent type imports for component types
+- Allow empty object type (`{}`) for component props
+- Disable display name checks for HOCs and forwardRef
+- Allow empty interfaces for component props
 
 ## VS Code Integration
 
@@ -58,4 +67,13 @@ npm run lint
 
 # To fix automatically fixable issues
 npm run lint -- --fix
+```
+
+## Testing ESLint Rules
+
+The project includes unit tests for ESLint rules to ensure they are correctly configured. To run the tests:
+
+```bash
+# From the web app directory
+npm test
 ``` 
