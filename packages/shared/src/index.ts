@@ -5,4 +5,4 @@ export const placeholder = 'shared';
 export * from './lib/types';
 
 // Utility exports
-export * from './lib/utils/shared'; 
+export * from './lib/utils/shared';

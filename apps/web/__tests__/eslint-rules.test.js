@@ -8,7 +8,9 @@ describe('ESLint Configuration', () => {
   test('typescript rules are configured', () => {
     expect(config.rules['@typescript-eslint/no-explicit-any']).toBe('error');
     expect(config.rules['@typescript-eslint/no-unused-vars']).toBe('error');
-    expect(config.rules['@typescript-eslint/no-non-null-assertion']).toBe('error');
+    expect(config.rules['@typescript-eslint/no-non-null-assertion']).toBe(
+      'error'
+    );
   });
 
   test('react hooks rules are configured', () => {
@@ -23,8 +25,10 @@ describe('ESLint Configuration', () => {
   });
 
   test('shadcn/ui specific rules are configured', () => {
-    expect(config.rules['@typescript-eslint/consistent-type-imports']).toBe('error');
+    expect(config.rules['@typescript-eslint/consistent-type-imports']).toBe(
+      'error'
+    );
     expect(config.rules['react/display-name']).toBe('off');
     expect(config.rules['@typescript-eslint/no-empty-interface']).toBe('off');
   });
-}); 
+});

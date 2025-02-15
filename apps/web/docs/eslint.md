@@ -4,7 +4,8 @@ This document outlines the ESLint configuration used in the project.
 
 ## Overview
 
-Our ESLint configuration is designed to maintain high code quality and consistency across the codebase. It includes:
+Our ESLint configuration is designed to maintain high code quality and consistency across the
+codebase. It includes:
 
 - TypeScript support
 - React and React Hooks rules
@@ -23,21 +24,25 @@ Our ESLint configuration is designed to maintain high code quality and consisten
 ## Rules
 
 ### TypeScript
+
 - No unused variables (`@typescript-eslint/no-unused-vars`)
 - No explicit `any` (`@typescript-eslint/no-explicit-any`)
 - No non-null assertions (`@typescript-eslint/no-non-null-assertion`)
 - Consistent type imports (`@typescript-eslint/consistent-type-imports`)
 
 ### React Hooks
+
 - Rules of Hooks (`react-hooks/rules-of-hooks`)
 - Exhaustive Dependencies (`react-hooks/exhaustive-deps`)
 
 ### Import Organization
+
 - Sorted imports with defined groups
 - No duplicate imports
 - Consistent newlines after imports
 
 ### shadcn/ui Specific Rules
+
 - Consistent type imports for component types
 - Allow empty object type (`{}`) for component props
 - Disable display name checks for HOCs and forwardRef
@@ -54,6 +59,7 @@ The project includes VS Code settings for automatic ESLint integration:
 ## GitHub Actions
 
 Linting is automatically run on:
+
 - Pull requests to main
 - Pushes to main
 
@@ -71,9 +77,10 @@ npm run lint -- --fix
 
 ## Testing ESLint Rules
 
-The project includes unit tests for ESLint rules to ensure they are correctly configured. To run the tests:
+The project includes unit tests for ESLint rules to ensure they are correctly configured. To run the
+tests:
 
 ```bash
 # From the web app directory
 npm test
-``` 
+```

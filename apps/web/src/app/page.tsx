@@ -1,4 +1,4 @@
-import { TestSetup } from "@/components/TestSetup";
+import { TestSetup } from '@/components/TestSetup';
 
 export default function Home() {
   return (
