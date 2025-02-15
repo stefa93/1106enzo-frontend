@@ -1,0 +1,15 @@
+{
+  "name": "@enzo/strapi",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'Strapi dev script placeholder'",
+    "build": "echo 'Strapi build script placeholder'",
+    "test": "echo 'Strapi test script placeholder'",
+    "lint": "echo 'Strapi lint script placeholder'",
+    "clean": "rm -rf .cache build node_modules"
+  },
+  "dependencies": {
+    "@enzo/shared": "*"
+  }
+} 
