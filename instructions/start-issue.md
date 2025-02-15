@@ -77,17 +77,17 @@ Always list the issues with the following command(Dont use the tool):
   - Feature 3"
   ```
 
-  Wait on a
+## 9. Wait on a all checks to pass in the PR
 
-## 9. Merge PR
+## 10. Merge PR
 
-## 10. Mark Issue as Completed
+## 11. Mark Issue as Completed
 This can only be done after the PR is merged. The merge will happen manually by me.
   ```bash
   ./scripts/github/project.sh status stefa93 <project-number> <issue-number> "Done"
   ```
 
-## 9. Delete Branch
+## 12. Delete Branch
 
 ## Reference
 
