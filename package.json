@@ -1,12 +1,25 @@
 {
   "name": "1106enzo-frontend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "turbo": "latest",
+    "prettier": "^3.2.5"
+  },
+  "packageManager": "npm@10.2.4",
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }

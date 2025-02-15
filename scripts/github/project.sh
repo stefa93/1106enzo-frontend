@@ -11,7 +11,7 @@ update_status() {
     if [[ ! "$new_status" =~ ^(Todo|In Progress|Done)$ ]]; then
         echo "Error: Invalid status. Available options: Todo, In Progress, Done"
         exit 1
-    }
+    fi
 
     echo "Info: Updating status for issue #$issue_number to $new_status..."
 

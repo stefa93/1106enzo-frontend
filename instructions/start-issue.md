@@ -1,75 +1,90 @@
-# Starting Work on an Issue
+# AI Issue Workflow
 
-Follow these steps when starting work on an issue:
+## 1. Go through all the issues and pick the next logical issue to work on.
+Always verify with me before chaning status, creating a branch and starting to work on an issue.
 
-## 1. Update Issue Status
+- **List Open Issues:**
+Always list the issues with the following command(Dont use the tool):
+  ```bash
+  gh issue list -L 250
+  ```
 
-Use the project script to set the issue status to "In Progress":
+- **View Issue Details:**
+  ```bash
+  gh issue view <issue-number>
+  ```
 
-```bash
-./scripts/github/project.sh status stefa93 <project-number> <issue-number> "In Progress"
-```
+- **Set Issue to "In Progress":**
+  ```bash
+  ./scripts/github/project.sh status stefa93 <project-number> <issue-number> " In Progress"
+  ```
 
-## 2. Create Feature Branch
+## 2. Create Branch
 
-Create and checkout a feature branch linked to the issue:
+- **Create and Checkout Feature Branch Linked to Issue:**
+  ```bash
+  gh issue develop <issue-number> --name "<type>/<description>-<issue-number>"
+  ```
 
-```bash
-gh issue develop <issue-number> --name "<type>/<description>-<issue-number>"
-```
-
-Example:
-
-```bash
-gh issue develop 123 --name "feature/user-auth-123"
-```
+  and then checkout the branch:
+  ```bash
+  git checkout <type>/<description>-<issue-number>
+  ```
 
 ## 3. Development Process
 
-1. Create test files first:
+- **Create Test Files First:**
+  src/components/<Component>.tsx
+  src/components/__tests__/*
+  src/components/stories/*
 
-   - `src/components/<Component>.tsx`
-   - `src/components/__tests__/*`
-   - `src/components/stories/*`
-
-2. Follow TDD cycle:
-   ```bash
-   npm run test:watch <Component>
-   ```
+- **Follow TDD Cycle:**
+  ```bash
+  npm run test:watch <Component>
+  ```
 
 ## 4. Commit Changes
 
-Use conventional commit messages with issue reference:
+- **Commit with Conventional Message and Issue Reference:**
 
-```bash
-git commit -m "feat: add user authentication (fixes #123)"
-```
+- **Verify Build and Tests:**
 
-Types:
+## 5. Create PR & Complete
 
-- `feat:` New feature
-- `fix:` Bug fix
-- `docs:` Documentation
-- `style:` Formatting
-- `refactor:` Code restructuring
-- `test:` Adding tests
-- `chore:` Maintenance
+- **Create Pull Request Linked to Issue:**
+  ```bash
+  gh pr create --base main --title "<type>: <description> (fixes #<issue-number>)" --body "Implements:
+  - Feature 1
+  - Feature 2
+  - Feature 3"
+  ```
 
-## 5. Create Pull Request
+- **Mark Issue as Completed:**
+  ```bash
+  ./scripts/github/project.sh status stefa93 <project-number> <issue-number> "Done"
+  ```
 
-Create a pull request linked to the issue:
+## Reference
 
-```bash
-gh pr create --base main --title "<type>: <description> (fixes #<issue-number>)" --body "Implements:
-- Feature 1
-- Feature 2
-- Feature 3"
-```
+### Type Prefixes:
+- **feat:** New feature
+- **fix:** Bug fix
+- **docs:** Documentation
+- **style:** Formatting
+- **refactor:** Code restructuring
+- **test:** Adding tests
+- **chore:** Maintenance
 
-## 6. Mark as Complete
+### Variables:
+- **<project-number>:** Project board number
+- **<issue-number>:** GitHub issue number
+- **<description>:** Brief feature description
+- **<type>:** One of the type prefixes above
 
-After PR is merged, update issue status to "Done":
-
-```bash
-./scripts/github/project.sh status stefa93 <project-number> <issue-number> "Done"
-```
+### Definition of Done Checklist:
+- All tests passing
+- Code reviewed
+- Documentation updated
+- Accessibility verified
+- Performance checked
+- Build succeeding
