@@ -5,4 +5,4 @@ export const formatDate = (date: Date): string => {
 
 export const isValidEmail = (email: string): boolean => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}; 
+};
