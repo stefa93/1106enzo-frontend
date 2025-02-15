@@ -1,0 +1,55 @@
+## Components & Naming
+- Use functional components with `"use client"` if needed.
+- Name in PascalCase under `src/components/`.
+- Keep components small and typed with interfaces.
+- Use Tailwind for common UI components like `textarea`, `button`, etc. Never use radix or shadcn.
+
+## Icons
+- Prefer `lucide-react`; name icons in PascalCase.
+- Custom icons in `src/components/icons`.
+
+## Toast Notifications
+- Use `react-toastify` in client components.
+- `toast.success()`, `toast.error()`, etc.
+
+## Next.js Structure
+- Use App Router in `app/`. Server components by default, `"use client"` for client logic.
+- NextAuth + Strapi for auth (removing Prisma if no longer needed). `.env` for secrets.
+
+## Strapi 5 & Code-Based Content Types
+- Place Strapi in `apps/strapi` in a monorepo structure.
+- Use SQLite for development, PostgreSQL for staging/production.
+- Create content types in code with `schema.json` files in `src/api/<content-type>/content-types/<content-type>/schema.json`.
+
+## Turborepo Setup
+- Root-level `turbo.json` with dev/build pipelines.
+- Place Next.js in `apps/web`, Strapi in `apps/strapi`.
+- Possibly share code in `packages/`.
+
+## TypeScript & Syntax
+- Strict mode. Avoid `any`.
+- Use optional chaining, union types (no enums).
+
+## File & Folder Names
+- Next.js routes in kebab-case (e.g., `app/dashboard/page.tsx`).
+- Shared types in `src/lib/types.ts`.
+- Sort imports (external → internal → sibling → styles).
+
+## Tailwind Usage
+- Use Tailwind (mobile-first, dark mode with `dark:(class)`). Extend brand tokens in `tailwind.config.ts`.
+- For animations, prefer Framer Motion.
+
+## Misc
+- Keep code short; commits semantic.
+- Reusable logic in `src/lib/utils/shared.ts` or `src/lib/utils/server.ts`.
+- Use `tsx` scripts for migrations.
+
+## Build & Git Updates
+- After all changes, ALWAYS build the project with `npm run build`. Ignore warnings, fix errors.
+- Add a one-sentence summary of changes to `.cursor-updates` in markdown format at the end of every interaction.
+- If forgotten, user can type `"finish"` to trigger build and update `.cursor-updates`.
+- Update git with:
+  ```sh
+  git add . && git commit -m "..."
+  ```
+  Don't push.
