@@ -77,6 +77,8 @@ Always list the issues with the following command(Dont use the tool):
   - Feature 3"
   ```
 
+  Wait on a
+
 ## 9. Merge PR
 
 ## 10. Mark Issue as Completed
