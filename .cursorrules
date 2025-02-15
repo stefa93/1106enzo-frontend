@@ -45,6 +45,10 @@
 - Use `tsx` scripts for migrations.
 - Use sequintial thinking before starting to code
 
+## Workflow
+- Use the instructions in the `instructions` folder to complete the task.
+- Use the `start-issue.md` file to start the issue.
+
 ## Build & Git Updates
 - After all changes, ALWAYS build the project with `npm run build`. Ignore warnings, fix errors.
 - Add a one-sentence summary of changes to `.cursor-updates` in markdown format at the end of every interaction.
