@@ -15,46 +15,35 @@ update_status() {
 
     echo "Info: Updating status for issue #$issue_number to $new_status..."
 
-    # Get project ID
-    project_id=$(gh api graphql -f query='
+    # Get project ID and status field info in one query
+    project_info=$(gh api graphql -f query='
     {
       user(login: "'$username'") {
         projectV2(number: '$project_number') {
           id
-        }
-      }
-    }' --jq '.data.user.projectV2.id')
-
-    # Map status to option ID
-    case "$new_status" in
-        "Todo")
-            status_option_id="f75ad846"
-            ;;
-        "In Progress")
-            status_option_id="47fc9ee4"
-            ;;
-        "Done")
-            status_option_id="98236657"
-            ;;
-        *)
-            echo "Error: Invalid status"
-            exit 1
-            ;;
-    esac
-
-    # Get status field ID
-    status_field_id=$(gh api graphql -f query='
-    {
-      user(login: "'$username'") {
-        projectV2(number: '$project_number') {
           field(name: "Status") {
             ... on ProjectV2SingleSelectField {
               id
+              options {
+                id
+                name
+              }
             }
           }
         }
       }
-    }' --jq '.data.user.projectV2.field.id')
+    }' --jq '.')
+
+    project_id=$(echo "$project_info" | jq -r '.data.user.projectV2.id')
+    status_field_id=$(echo "$project_info" | jq -r '.data.user.projectV2.field.id')
+    
+    # Get status option ID dynamically
+    status_option_id=$(echo "$project_info" | jq -r --arg status "$new_status" '.data.user.projectV2.field.options[] | select(.name == $status) | .id')
+
+    if [ -z "$status_option_id" ]; then
+        echo "Error: Could not find option ID for status: $new_status"
+        exit 1
+    fi
 
     # Get item ID for the issue
     item_id=$(gh api graphql -f query='
@@ -75,8 +64,13 @@ update_status() {
       }
     }' --jq '.data.user.projectV2.items.nodes[] | select(.content.number == '$issue_number') | .id')
 
+    if [ -z "$item_id" ]; then
+        echo "Error: Could not find issue #$issue_number in project"
+        exit 1
+    fi
+
     # Update the status
-    gh api graphql -f query='
+    result=$(gh api graphql -f query='
     mutation {
       updateProjectV2ItemFieldValue(
         input: {
@@ -92,7 +86,15 @@ update_status() {
           id
         }
       }
-    }'
+    }')
+
+    if echo "$result" | jq -e '.data.updateProjectV2ItemFieldValue.projectV2Item.id' > /dev/null; then
+        echo "Success: Updated status of issue #$issue_number to $new_status"
+    else
+        echo "Error: Failed to update status"
+        echo "$result"
+        exit 1
+    fi
 }
 
 # Main script
