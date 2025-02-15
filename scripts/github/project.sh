@@ -25,6 +25,23 @@ update_status() {
       }
     }' --jq '.data.user.projectV2.id')
 
+    # Map status to option ID
+    case "$new_status" in
+        "Todo")
+            status_option_id="f75ad846"
+            ;;
+        "In Progress")
+            status_option_id="47fc9ee4"
+            ;;
+        "Done")
+            status_option_id="98236657"
+            ;;
+        *)
+            echo "Error: Invalid status"
+            exit 1
+            ;;
+    esac
+
     # Get status field ID
     status_field_id=$(gh api graphql -f query='
     {
@@ -33,32 +50,11 @@ update_status() {
           field(name: "Status") {
             ... on ProjectV2SingleSelectField {
               id
-              options {
-                id
-                name
-              }
             }
           }
         }
       }
     }' --jq '.data.user.projectV2.field.id')
-
-    # Get status option ID
-    status_option_id=$(gh api graphql -f query='
-    {
-      user(login: "'$username'") {
-        projectV2(number: '$project_number') {
-          field(name: "Status") {
-            ... on ProjectV2SingleSelectField {
-              options {
-                id
-                name
-              }
-            }
-          }
-        }
-      }
-    }' --jq '.data.user.projectV2.field.options[] | select(.name == "'$new_status'") | .id')
 
     # Get item ID for the issue
     item_id=$(gh api graphql -f query='
