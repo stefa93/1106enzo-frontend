@@ -60,7 +60,6 @@
 
 # package managers
 **/yarn.lock
-**/package-lock.json
 **/.npmrc
 
 # logs
