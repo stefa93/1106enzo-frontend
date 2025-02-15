@@ -109,3 +109,5 @@ Always list the issues with the following command(Dont use the tool):
 - Accessibility verified
 - Performance checked
 - Build succeeding
+
+IMPORTANT: REPEAT THE STEP BEFORE EXECUTING THE COMMAND

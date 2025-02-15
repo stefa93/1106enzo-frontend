@@ -7,7 +7,7 @@ module.exports = {
     "plugin:import/typescript",
   ],
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "import", "simple-import-sort"],
+  plugins: ["@typescript-eslint", "import", "simple-import-sort", "react-hooks"],
   settings: {
     "import/resolver": {
       typescript: true,
@@ -20,6 +20,10 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-non-null-assertion": "error",
+    
+    // React Hooks
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     
     // Import sorting
     "simple-import-sort/imports": [
@@ -43,6 +47,11 @@ module.exports = {
     "import/first": "error",
     "import/newline-after-import": "error",
     "import/no-duplicates": "error",
+
+    // React
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
   },
   ignorePatterns: [
     "node_modules/",
