@@ -27,6 +27,11 @@ Always list the issues with the following command(Dont use the tool):
   ```
 
   and then checkout the branch:
+  first always pull main and merge it into your branch:
+  ```bash
+  git pull origin main
+  ```
+  then checkout the branch:
   ```bash
   git checkout <type>/<description>-<issue-number>
   ```
@@ -47,9 +52,23 @@ Always list the issues with the following command(Dont use the tool):
 
 - **Commit with Conventional Message and Issue Reference:**
 
-- **Verify Build and Tests:**
 
-## 5. Create PR & Complete
+## 5. Check the acceptance criteria and Definition of Done 
+  retrieve the issue and check the acceptance criteria and Definition of Done 
+  ```bash
+  gh issue view <issue-number>
+  ```
+
+  fix the issues and make sure all acceptance criteria are met and the Definition of Done is completed.
+
+  when you think you are done try 5 again untill you get no issues.
+
+## 6. Verify Build and Tests
+
+## 7. Push to Branch
+
+
+## 8. Create PR & Complete
 
 - **Create Pull Request Linked to Issue:**
   ```bash
@@ -63,6 +82,8 @@ Always list the issues with the following command(Dont use the tool):
   ```bash
   ./scripts/github/project.sh status stefa93 <project-number> <issue-number> "Done"
   ```
+
+## 9. Delete Branch
 
 ## Reference
 

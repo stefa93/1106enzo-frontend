@@ -1,0 +1,15 @@
+{
+  "name": "@enzo/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'Web dev script placeholder'",
+    "build": "echo 'Web build script placeholder'",
+    "test": "echo 'Web test script placeholder'",
+    "lint": "echo 'Web lint script placeholder'",
+    "clean": "rm -rf .next .turbo node_modules"
+  },
+  "dependencies": {
+    "@enzo/shared": "*"
+  }
+} 
