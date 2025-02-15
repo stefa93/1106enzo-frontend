@@ -43,6 +43,7 @@
 - Keep code short; commits semantic.
 - Reusable logic in `src/lib/utils/shared.ts` or `src/lib/utils/server.ts`.
 - Use `tsx` scripts for migrations.
+- Use sequintial thinking before starting to code
 
 ## Build & Git Updates
 - After all changes, ALWAYS build the project with `npm run build`. Ignore warnings, fix errors.
