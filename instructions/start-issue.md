@@ -1,6 +1,6 @@
 # AI Issue Workflow
 
-## 1. Go through all the issues and pick the next logical issue to work on.
+## 1. Go through all the issues and pick the next logical issue to work on. Take into account the state of the project and use sequential thinking
 
 Always verify with me before chaning status, creating a branch and starting to work on an issue.
 
@@ -70,9 +70,11 @@ when you think you are done try 5 again untill you get no issues.
 
 ## 6. Verify Build and Tests
 
-## 7. Push to Branch
+## 7. check if documentation is updated
 
-## 8. Create PR
+## 8. Push to Branch
+
+## 9. Create PR
 
 - **Create Pull Request Linked to Issue:**
   ```bash
@@ -82,13 +84,15 @@ when you think you are done try 5 again untill you get no issues.
   - Feature 3"
   ```
 
-## 9. Wait on a all checks to pass in the PR
+## 10. Wait on a all checks to pass in the PR
 
-## 10. Merge PR
+- if build fails check the build logs and fix the issues
+
+## 11. Merge PR
 
 Ask me for approval before merging the PR.
 
-## 11. Mark Issue as Completed
+## 12. Mark Issue as Completed
 
 This can only be done after the PR is merged.
 
@@ -96,7 +100,11 @@ This can only be done after the PR is merged.
 ./scripts/github/project.sh status stefa93 <project-number> <issue-number> "Done"
 ```
 
-## 12. Delete Branch
+## 13. Delete Branch
+
+```bash
+git branch -d <branch-name>
+```
 
 ## Reference
 

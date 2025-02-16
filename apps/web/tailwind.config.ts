@@ -11,6 +11,19 @@ export default {
     extend: {
       colors: {
         // Brand colors
+        brand: {
+          DEFAULT: '#f2930d',
+          50: '#fff8eb',
+          100: '#ffecc7',
+          200: '#ffd98a',
+          300: '#ffc14d',
+          400: '#f2930d', // Main brand color
+          500: '#e68a0b',
+          600: '#cc7a0a',
+          700: '#a66208',
+          800: '#804b06',
+          900: '#663c05',
+        },
         primary: {
           DEFAULT: '#0070F3',
           50: '#E6F0FF',
