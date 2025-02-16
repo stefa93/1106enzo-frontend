@@ -1,6 +1,6 @@
 # AI Issue Workflow
 
-## 1. Go through all the issues and pick the next logical issue to work on.
+## 1. Go through all the issues and pick the next logical issue to work on. Take into account the state of the project and use sequential thinking
 
 Always verify with me before chaning status, creating a branch and starting to work on an issue.
 
@@ -84,7 +84,12 @@ when you think you are done try 5 again untill you get no issues.
   - Feature 3"
   ```
 
+<<<<<<< Updated upstream
 ## 10. Wait on a all checks to pass in the PR
+=======
+## 9. Wait on a all checks to pass in the PR
+  - if build fails check the build logs and fix the issues
+>>>>>>> Stashed changes
 
 ## 11. Merge PR
 
