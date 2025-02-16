@@ -34,6 +34,11 @@ npm run lint
 npm run test
 ```
 
+## Documentation
+
+- [Styling Guide](docs/styling.md) - Tailwind CSS configuration and usage
+- [Formatting](docs/formatting.md) - Code formatting guidelines
+
 ## Requirements
 
 - Node.js >= 18.0.0
