@@ -18,7 +18,7 @@ Always verify with me before chaning status, creating a branch and starting to w
 
 - **Set Issue to "In Progress":**
   ```bash
-  ./scripts/github/project.sh status stefa93 <project-number> <issue-number> " In Progress"
+  ./scripts/github/project.sh status stefa93 <project-number> <issue-number> "In Progress"
   ```
 
 ## 2. Create Branch
@@ -73,6 +73,13 @@ when you think you are done try 5 again untill you get no issues.
 ## 7. check if documentation is updated
 
 ## 8. Push to Branch
+
+**IMPORTANT: This step MUST be completed before creating a PR**
+
+```bash
+# Push your branch to the remote repository
+git push -u origin <type>/<description>-<issue-number>
+```
 
 ## 9. Create PR
 
