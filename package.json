@@ -11,11 +11,13 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
+    "test:ci": "turbo run test:ci",
     "clean": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,md,json,js,jsx}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json,js,jsx}\"",
-    "prepare": "husky install",
-    "release": "standard-version"
+    "postinstall": "husky",
+    "release": "standard-version",
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md,json}": [
