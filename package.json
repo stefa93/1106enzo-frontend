@@ -28,7 +28,6 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11"
   },
-  "packageManager": "npm@10.2.4",
   "engines": {
     "node": ">=18.0.0"
   }
