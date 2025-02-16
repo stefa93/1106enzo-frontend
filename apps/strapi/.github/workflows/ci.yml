@@ -1,0 +1,60 @@
+name: Strapi CI
+
+on:
+  pull_request:
+    paths:
+      - 'apps/strapi/**'
+  push:
+    branches: [main]
+    paths:
+      - 'apps/strapi/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./apps/strapi
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: npm-cache
+        with:
+          path: |
+            **/node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache Strapi build
+        uses: actions/cache@v3
+        with:
+          path: |
+            .cache
+            .strapi
+            build
+            .tmp
+          key: ${{ runner.os }}-strapi-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-strapi-
+
+      - name: Install dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Build Strapi
+        run: npm run build
+
+      - name: Type check
+        run: npx tsc --noEmit
