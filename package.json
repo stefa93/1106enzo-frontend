@@ -14,7 +14,8 @@
     "clean": "turbo run clean",
     "format": "prettier --write \"**/*.{ts,tsx,md,json,js,jsx}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json,js,jsx}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release": "standard-version"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md,json}": [
@@ -22,11 +23,14 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.0.3",
+    "@commitlint/config-conventional": "^19.0.3",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
-    "turbo": "latest",
     "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.11"
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "standard-version": "^9.5.0",
+    "turbo": "latest"
   },
   "packageManager": "npm@10.2.4",
   "engines": {
