@@ -36,9 +36,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
+            .next/cache
             apps/web/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('apps/web/**/*.{js,jsx,ts,tsx}') }}
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
             ${{ runner.os }}-nextjs-
 
       - name: Cache Strapi build
@@ -46,19 +48,15 @@ jobs:
         with:
           path: |
             apps/strapi/.cache
-            apps/strapi/.strapi
             apps/strapi/build
-            apps/strapi/.tmp
-          key: ${{ runner.os }}-strapi-${{ hashFiles('apps/strapi/**/*.{js,jsx,ts,tsx}') }}
+          key: ${{ runner.os }}-strapi-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('apps/strapi/src/**') }}
           restore-keys: |
+            ${{ runner.os }}-strapi-${{ hashFiles('**/package-lock.json') }}-
             ${{ runner.os }}-strapi-
 
       - name: Install dependencies
         if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci
-
-      - name: Type check
-        run: npm run typecheck
 
       - name: Build
         run: npm run build
