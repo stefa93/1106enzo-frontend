@@ -38,6 +38,7 @@ npm run test
 
 - [Styling Guide](docs/styling.md) - Tailwind CSS configuration and usage
 - [Formatting](docs/formatting.md) - Code formatting guidelines
+- [Git Hooks](docs/hooks.md) - Git hooks configuration and usage
 
 ## Requirements
 
