@@ -8,7 +8,10 @@
     "deploy": "strapi deploy",
     "develop": "strapi develop",
     "start": "strapi start",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:ci": "vitest run --coverage"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "5.10.2",
@@ -24,7 +27,9 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "typescript": "^5"
+    "@vitest/coverage-v8": "^1.2.2",
+    "typescript": "^5",
+    "vitest": "^1.2.2"
   },
   "engines": {
     "node": ">=18.0.0 <=22.x.x",
