@@ -85,6 +85,7 @@ when you think you are done try 5 again untill you get no issues.
   ```
 
 ## 10. Wait on a all checks to pass in the PR
+
 - if build fails check the build logs and fix the issues
 
 ## 11. Merge PR

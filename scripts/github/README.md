@@ -4,7 +4,8 @@ This directory contains scripts for managing GitHub projects and issues.
 
 ## Project Status Management (`project.sh`)
 
-A script to manage issues in GitHub Projects (beta), including status updates and project information.
+A script to manage issues in GitHub Projects (beta), including status updates and project
+information.
 
 ### Prerequisites
 
@@ -17,6 +18,7 @@ A script to manage issues in GitHub Projects (beta), including status updates an
 ### Commands
 
 #### 1. Update Issue Status
+
 Updates the status of an issue in a project board.
 
 ```bash
@@ -29,11 +31,13 @@ Updates the status of an issue in a project board.
 - `<status>`: New status (Todo, In Progress, or Done)
 
 Example:
+
 ```bash
 ./project.sh status stefa93 2 3 "In Progress"
 ```
 
 #### 2. Check Issue Project
+
 Shows which project an issue belongs to.
 
 ```bash
@@ -41,11 +45,13 @@ Shows which project an issue belongs to.
 ```
 
 Example:
+
 ```bash
 ./project.sh check-issue stefa93 3
 ```
 
 #### 3. List Projects
+
 Lists all available projects for a user.
 
 ```bash
@@ -53,6 +59,7 @@ Lists all available projects for a user.
 ```
 
 Example:
+
 ```bash
 ./project.sh list-projects stefa93
 ```
@@ -70,10 +77,12 @@ Example:
 The script provides helpful feedback in various scenarios:
 
 1. Wrong project number:
+
    - Shows the correct project number for the issue
    - Lists all available projects
 
 2. Invalid status:
+
    - Shows available status options
 
 3. Issue not found:

@@ -2,7 +2,8 @@
 
 ## Tailwind CSS Configuration
 
-The project uses Tailwind CSS for styling, with custom configurations for brand colors and other design tokens.
+The project uses Tailwind CSS for styling, with custom configurations for brand colors and other
+design tokens.
 
 ### Brand Colors
 
@@ -81,4 +82,4 @@ Custom animations are available:
 2. Follow mobile-first responsive design
 3. Maintain consistent spacing using Tailwind's spacing scale
 4. Use semantic color tokens for better maintainability
-5. Ensure proper color contrast for accessibility 
+5. Ensure proper color contrast for accessibility

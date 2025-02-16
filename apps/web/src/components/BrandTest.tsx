@@ -13,30 +13,30 @@ export function BrandTest({ className = '' }: BrandTestProps) {
           <h3 className="font-semibold">Default & Hover States</h3>
           <button
             type="button"
-            className="px-4 py-2 text-white bg-brand hover:bg-brand-600 rounded-md transition-colors"
+            className="rounded-md bg-brand px-4 py-2 text-white transition-colors hover:bg-brand-600"
           >
             Brand Button
           </button>
-          <p className="text-brand hover:text-brand-700 cursor-pointer">
+          <p className="cursor-pointer text-brand hover:text-brand-700">
             Hover me to see color change
           </p>
         </div>
         <div className="space-y-2">
           <h3 className="font-semibold">Color Scale</h3>
           <div className="space-y-1">
-            <div className="h-6 bg-brand-50 rounded" />
-            <div className="h-6 bg-brand-100 rounded" />
-            <div className="h-6 bg-brand-200 rounded" />
-            <div className="h-6 bg-brand-300 rounded" />
-            <div className="h-6 bg-brand-400 rounded" />
-            <div className="h-6 bg-brand-500 rounded" />
-            <div className="h-6 bg-brand-600 rounded" />
-            <div className="h-6 bg-brand-700 rounded" />
-            <div className="h-6 bg-brand-800 rounded" />
-            <div className="h-6 bg-brand-900 rounded" />
+            <div className="h-6 rounded bg-brand-50" />
+            <div className="h-6 rounded bg-brand-100" />
+            <div className="h-6 rounded bg-brand-200" />
+            <div className="h-6 rounded bg-brand-300" />
+            <div className="h-6 rounded bg-brand-400" />
+            <div className="h-6 rounded bg-brand-500" />
+            <div className="h-6 rounded bg-brand-600" />
+            <div className="h-6 rounded bg-brand-700" />
+            <div className="h-6 rounded bg-brand-800" />
+            <div className="h-6 rounded bg-brand-900" />
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}
