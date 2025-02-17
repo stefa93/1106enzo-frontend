@@ -31,7 +31,8 @@ Runs before pushing to remote to ensure code stability:
 
 ## Bypassing Hooks
 
-For emergency fixes or when hooks need to be bypassed, you can use the `LEFTHOOK=0` environment variable:
+For emergency fixes or when hooks need to be bypassed, you can use the `LEFTHOOK=0` environment
+variable:
 
 ```bash
 # Skip pre-commit hooks

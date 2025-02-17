@@ -1,4 +1,5 @@
-You are a senior software engineer working on a project follow the instructions below to work on an issue.
+You are a senior software engineer working on a project follow the instructions below to work on an
+issue.
 
 ## 1. Go through all the issues and pick the next logical issue to work on
 
@@ -50,7 +51,8 @@ Always verify with me before chaning status, creating a branch and starting to w
   git checkout <type>/<description>-<issue-number>
   ```
 
-  after checkout put the issue in a issue markdown file called CURRENT_ISSUE.md file in the root of the project.
+  after checkout put the issue in a issue markdown file called CURRENT_ISSUE.md file in the root of
+  the project.
 
 ## 3. Development Process
 
