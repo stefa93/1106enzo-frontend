@@ -1,6 +1,6 @@
 # AI Issue Workflow
 
-## 1. Go through all the issues and pick the next logical issue to work on. Take into account the state of the project and use sequential thinking
+## 1. Go through all the issues and pick the next logical issue to work on. Take into account the state of the project and use sequential thinking. pick a top 5 and reason from there.
 
 Always verify with me before chaning status, creating a branch and starting to work on an issue.
 
@@ -48,7 +48,7 @@ Always verify with me before chaning status, creating a branch and starting to w
 
 - **Follow TDD Cycle:**
   ```bash
-  npm run test:watch <Component>
+  npm run test <Component>
   ```
 
 ## 4. Commit Changes

@@ -123,3 +123,41 @@ git commit
 ```
 
 This will open your editor with a template that includes helpful guidelines.
+
+## CI/CD Pipeline
+
+Our project uses GitHub Actions for continuous integration and deployment. The pipeline includes:
+
+### Automated Checks
+
+- Build verification for Next.js and Strapi
+- Unit tests execution
+- Linting
+- Type checking
+
+### Running Locally
+
+Before pushing your changes, you can run the same checks locally:
+
+```bash
+# Install dependencies
+npm ci
+
+# Build all packages
+npm run build
+
+# Run tests
+npm run test
+
+# Run linting
+npm run lint
+```
+
+### Workflow Status
+
+The CI pipeline runs on:
+
+- All pull requests
+- Pushes to main branch
+
+Make sure all checks pass before requesting a review.

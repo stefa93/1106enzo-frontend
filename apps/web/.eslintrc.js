@@ -25,6 +25,18 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-non-null-assertion': 'error',
+    '@typescript-eslint/no-unused-expressions': [
+      'error',
+      { allowShortCircuit: true },
+    ],
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        types: {
+          '{}': false,
+        },
+      },
+    ],
 
     // React Hooks
     'react-hooks/rules-of-hooks': 'error',
@@ -60,15 +72,6 @@ module.exports = {
 
     // shadcn/ui specific rules
     '@typescript-eslint/consistent-type-imports': 'error', // for consistent type imports in shadcn/ui components
-    '@typescript-eslint/ban-types': [
-      'error',
-      {
-        types: {
-          '{}': false,
-        },
-      },
-    ], // shadcn/ui uses empty object type in some components
-    'react/display-name': 'off', // shadcn/ui uses HOCs and forwardRef
     '@typescript-eslint/no-empty-interface': 'off', // allow empty interfaces for component props
   },
   ignorePatterns: [
