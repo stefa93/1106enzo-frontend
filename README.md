@@ -88,3 +88,5 @@ Status checks must pass before merging pull requests. For more details, see:
 
 - Node.js >= 18.0.0
 - npm >= 10.2.4
+
+This project uses Lefthook for git hooks management. See `docs/hooks.md` for more information.
