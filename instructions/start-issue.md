@@ -1,6 +1,15 @@
 # AI Issue Workflow
 
-## 1. Go through all the issues and pick the next logical issue to work on. Take into account the state of the project and use sequential thinking. pick a top 5 and reason from there.
+## 1. Go through all the issues and pick the next logical issue to work on
+
+Go through all the issues and pick the next logical issue to work on. Take into account the state of
+the project and use sequential thinking.
+
+- Query Knowledge Graph Memory Server for:
+  - Related components and dependencies
+  - Previous similar issues
+  - Impact analysis
+  - Technical debt considerations
 
 Always verify with me before chaning status, creating a branch and starting to work on an issue.
 
@@ -42,6 +51,12 @@ Always verify with me before chaning status, creating a branch and starting to w
   ```
 
 ## 3. Development Process
+
+- Query Knowledge Graph Memory Server for:
+
+  - Component relationships
+  - Historical context
+  - Technical decisions
 
 - **Create Test Files First:** src/components/<Component>.tsx src/components/**tests**/_
   src/components/stories/_
@@ -112,6 +127,14 @@ This can only be done after the PR is merged.
 ```bash
 git branch -d <branch-name>
 ```
+
+## 14. Update Knowledge Graph Memory Server
+
+- Log completed issue details
+- Update component relationships
+- Store architectural decisions
+- Link to related issues
+- Update project context
 
 ## Reference
 

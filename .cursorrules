@@ -58,3 +58,9 @@
   git add . && git commit -m "..."
   ```
   Don't push.
+
+## Knowledge Graph Memory Server
+- Query graph for dependencies before picking issues
+- Update graph after completing each development milestone
+- Use graph context for development decisions
+- Store relationships between components, issues, and architectural decisions
