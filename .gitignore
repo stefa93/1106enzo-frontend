@@ -85,3 +85,5 @@
 # Strapi auto-generated files
 .strapi-updater.json
 .strapi/client/app.js 
+
+CURRENT_ISSUE.md

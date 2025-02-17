@@ -1,4 +1,4 @@
-# AI Issue Workflow
+You are a senior software engineer working on a project follow the instructions below to work on an issue.
 
 ## 1. Go through all the issues and pick the next logical issue to work on
 
@@ -49,6 +49,8 @@ Always verify with me before chaning status, creating a branch and starting to w
   ```bash
   git checkout <type>/<description>-<issue-number>
   ```
+
+  after checkout put the issue in a issue markdown file called CURRENT_ISSUE.md file in the root of the project.
 
 ## 3. Development Process
 
@@ -165,3 +167,5 @@ git branch -d <branch-name>
 - Build succeeding
 
 IMPORTANT: REPEAT THE STEP BEFORE EXECUTING THE COMMAND AND ALSO THE NEXT STEP
+
+I prefer to first fully setup the development process before going further with development
