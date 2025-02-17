@@ -33,7 +33,31 @@ export async function setupStrapi() {
       service: vi.fn().mockReturnValue(serviceMock),
       destroy: vi.fn(),
       config: {
-        get: vi.fn(),
+        get: vi.fn().mockImplementation((path) => {
+          if (path === 'plugin.users-permissions.config.providers') {
+            return {
+              google: {
+                enabled: true,
+                icon: 'google',
+                key: process.env.GOOGLE_CLIENT_ID,
+                secret: process.env.GOOGLE_CLIENT_SECRET,
+                callback: process.env.GOOGLE_CALLBACK_URL,
+                scope: ['email', 'profile'],
+              },
+            };
+          }
+          if (path === 'plugin.users-permissions.config.providers.google') {
+            return {
+              enabled: true,
+              icon: 'google',
+              key: process.env.GOOGLE_CLIENT_ID,
+              secret: process.env.GOOGLE_CLIENT_SECRET,
+              callback: process.env.GOOGLE_CALLBACK_URL,
+              scope: ['email', 'profile'],
+            };
+          }
+          return undefined;
+        }),
       },
     };
   }
@@ -75,7 +99,31 @@ export const createStrapiInstance = async (): Promise<ExtendedStrapi> => {
     service: vi.fn().mockReturnValue(serviceMock),
     destroy: vi.fn(),
     config: {
-      get: vi.fn(),
+      get: vi.fn().mockImplementation((path) => {
+        if (path === 'plugin.users-permissions.config.providers') {
+          return {
+            google: {
+              enabled: true,
+              icon: 'google',
+              key: process.env.GOOGLE_CLIENT_ID,
+              secret: process.env.GOOGLE_CLIENT_SECRET,
+              callback: process.env.GOOGLE_CALLBACK_URL,
+              scope: ['email', 'profile'],
+            },
+          };
+        }
+        if (path === 'plugin.users-permissions.config.providers.google') {
+          return {
+            enabled: true,
+            icon: 'google',
+            key: process.env.GOOGLE_CLIENT_ID,
+            secret: process.env.GOOGLE_CLIENT_SECRET,
+            callback: process.env.GOOGLE_CALLBACK_URL,
+            scope: ['email', 'profile'],
+          };
+        }
+        return undefined;
+      }),
     },
   };
 
