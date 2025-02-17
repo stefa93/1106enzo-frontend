@@ -1,98 +1,74 @@
-# Git Hooks Documentation
+# Git Hooks
 
-This project uses Husky to manage Git hooks for maintaining code quality and consistency.
+This project uses Lefthook to manage Git hooks for maintaining code quality and consistency.
 
 ## Available Hooks
 
 ### Pre-commit Hook
 
-Runs automatically before each commit and performs:
+Runs automatically before each commit to ensure code quality:
 
 - Code formatting via lint-staged (Prettier)
-- Linting checks
-- Unit tests
+- Test suite execution (test:ci)
 
-```bash
-# Located in .husky/pre-commit
-```
+The pre-commit hook runs these checks in parallel for better performance.
 
 ### Commit Message Hook
 
-Validates commit messages to ensure they follow the
-[Conventional Commits](https://www.conventionalcommits.org/) specification:
+Validates commit messages to ensure they follow conventional commit format:
 
 ```bash
-# Located in .husky/commit-msg
+type(scope): description
 ```
 
-Valid commit message format:
-
-```
-type(scope?): subject
-```
-
-Types:
-
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting, etc.)
-- `refactor`: Code refactoring
-- `test`: Adding or updating tests
-- `chore`: Maintenance tasks
-- `perf`: Performance improvements
-- `ci`: CI/CD changes
-- `build`: Build system changes
-- `revert`: Reverting changes
+Uses commitlint to enforce the format.
 
 ### Pre-push Hook
 
-Runs before pushing to remote and performs:
+Runs before pushing to remote to ensure code stability:
 
-- Full project build check
+- Full build verification
 
-```bash
-# Located in .husky/pre-push
-```
+## Bypassing Hooks
 
-## Skipping Hooks
-
-For emergency fixes or when hooks need to be bypassed, you can use the `HUSKY=0` environment
+For emergency fixes or when hooks need to be bypassed, you can use the `LEFTHOOK=0` environment
 variable:
 
 ```bash
-# Skip all hooks for a commit
-HUSKY=0 git commit -m "emergency: hotfix description"
+# Skip pre-commit hooks
+LEFTHOOK=0 git commit -m "emergency: hotfix description"
 
-# Skip all hooks for a push
-HUSKY=0 git push
+# Skip pre-push hooks
+LEFTHOOK=0 git push
 ```
 
-**Note**: Use hook skipping sparingly and only for emergency situations.
+## Hook Configuration
 
-## Development Workflow
+All hooks are configured in `lefthook.yml` in the project root. The configuration includes:
 
-1. Make your changes
-2. Stage your changes: `git add .`
-3. Commit with a conventional commit message: `git commit -m "type: description"`
-   - Hook will run formatting, linting, and tests
-4. Push your changes: `git push`
-   - Hook will verify the build
+- Parallel execution of pre-commit checks
+- Glob patterns for linting
+- Output formatting options
 
 ## Troubleshooting
 
 If hooks aren't running:
 
-1. Ensure Husky is installed: `npm install`
-2. Check hook permissions: `ls -la .husky/`
-3. Verify hook files exist and are executable
-4. Run `npm run prepare` to reinstall hooks
+1. Ensure Lefthook is installed: `npm install`
+2. Check hook installation: `npx lefthook install`
 
 ## Adding New Hooks
 
 To add a new hook:
 
-```bash
-npx husky add .husky/hook-name "npm run command"
-chmod +x .husky/hook-name
+1. Edit `lefthook.yml`
+2. Add your hook under the appropriate section:
+
+```yaml
+hook-name:
+  commands:
+    command-name:
+      run: npm run command
 ```
+
+3. Run `npx lefthook install` to update the hooks
