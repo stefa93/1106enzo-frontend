@@ -27,7 +27,19 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: node-cache
+        with:
+          path: |
+            **/node_modules
+            ~/.npm
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-modules-
+            
       - name: Install dependencies
+        if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm ci
         
       - name: Cache Turbo
@@ -46,7 +58,7 @@ jobs:
         env:
           NODE_ENV: test
           
-  lint:
+  code-quality:
     runs-on: ubuntu-latest
     
     steps:
@@ -58,8 +70,23 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
           
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: node-cache
+        with:
+          path: |
+            **/node_modules
+            ~/.npm
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-modules-
+            
       - name: Install dependencies
+        if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm ci
         
-      - name: Lint
-        run: npm run lint 
+      - name: ESLint
+        run: npm run lint
+        
+      - name: Prettier
+        run: npm run format:check 
