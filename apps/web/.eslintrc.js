@@ -7,6 +7,10 @@ module.exports = {
     'plugin:import/typescript',
   ],
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json',
+    tsconfigRootDir: __dirname,
+  },
   plugins: [
     '@typescript-eslint',
     'import',
@@ -15,7 +19,9 @@ module.exports = {
   ],
   settings: {
     'import/resolver': {
-      typescript: true,
+      typescript: {
+        project: './tsconfig.json',
+      },
       node: true,
     },
   },
@@ -29,14 +35,7 @@ module.exports = {
       'error',
       { allowShortCircuit: true },
     ],
-    '@typescript-eslint/ban-types': [
-      'error',
-      {
-        types: {
-          '{}': false,
-        },
-      },
-    ],
+    '@typescript-eslint/ban-types': 'off', // Temporarily disabled
 
     // React Hooks
     'react-hooks/rules-of-hooks': 'error',
