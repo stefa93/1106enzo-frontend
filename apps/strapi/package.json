@@ -9,9 +9,11 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "strapi": "strapi",
-    "test": "vitest run",
+    "test": "vitest",
     "test:watch": "vitest watch",
-    "test:ci": "vitest run --coverage"
+    "test:ci": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "clean": "rm -rf .cache .tmp dist coverage"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "5.10.2",
