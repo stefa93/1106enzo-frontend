@@ -62,10 +62,7 @@ export interface StrapiQuery {
 export interface StrapiService {
   create: (data: Record<string, unknown>) => Promise<Record<string, unknown>>;
   findOne: (id: number) => Promise<Record<string, unknown> | null>;
-  update: (
-    id: number,
-    data: Record<string, unknown>
-  ) => Promise<Record<string, unknown>>;
+  update: (id: number, data: Record<string, unknown>) => Promise<Record<string, unknown>>;
   delete: (id: number) => Promise<Record<string, unknown>>;
 }
 

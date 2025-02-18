@@ -95,3 +95,5 @@ CURRENT_ISSUE.md
 .env
 dist/
 build/
+
+mcp-tools/

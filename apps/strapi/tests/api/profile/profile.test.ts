@@ -1,12 +1,12 @@
-import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
-import { createStrapiInstance, strapiRequest } from '../../helpers/strapi';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { createTestUser, generateJWT } from '../../helpers/auth';
+import { createStrapiInstance, strapiRequest } from '../../helpers/strapi';
 import type {
-  ExtendedStrapi,
-  User,
-  ProfileResponse,
   ErrorResponse,
+  ExtendedStrapi,
+  ProfileResponse,
   ResponseData,
+  User,
 } from '../../helpers/types';
 
 describe('Profile API endpoints', () => {
@@ -28,41 +28,39 @@ describe('Profile API endpoints', () => {
     jwt = generateJWT(strapi, testUser);
 
     // Setup request mock for successful response
-    const requestMock = vi
-      .fn()
-      .mockImplementation(async (opts): Promise<ResponseData> => {
-        const auth = opts.headers?.Authorization;
+    const requestMock = vi.fn().mockImplementation(async (opts): Promise<ResponseData> => {
+      const auth = opts.headers?.Authorization;
 
-        if (!auth) {
-          return {
-            status: 401,
-            body: { message: 'No authorization header' },
-            headers: {},
-          };
-        }
-
-        if (auth === 'Bearer invalid-token') {
-          return {
-            status: 401,
-            body: { message: 'Invalid token' },
-            headers: {},
-          };
-        }
-
-        if (auth === `Bearer ${jwt}`) {
-          return {
-            status: 200,
-            body: { data: testUser },
-            headers: {},
-          };
-        }
-
+      if (!auth) {
         return {
           status: 401,
-          body: { message: 'Unauthorized' },
+          body: { message: 'No authorization header' },
           headers: {},
         };
-      });
+      }
+
+      if (auth === 'Bearer invalid-token') {
+        return {
+          status: 401,
+          body: { message: 'Invalid token' },
+          headers: {},
+        };
+      }
+
+      if (auth === `Bearer ${jwt}`) {
+        return {
+          status: 200,
+          body: { data: testUser },
+          headers: {},
+        };
+      }
+
+      return {
+        status: 401,
+        body: { message: 'Unauthorized' },
+        headers: {},
+      };
+    });
 
     // Setup the mock implementation
     strapi.server.request = requestMock;
@@ -77,9 +75,7 @@ describe('Profile API endpoints', () => {
     it('should return 401 when no token is provided', async () => {
       const res = await strapiRequest(strapi, 'GET', '/api/profile');
       expect(res.status).toBe(401);
-      expect((res.body as ErrorResponse).message).toBe(
-        'No authorization header'
-      );
+      expect((res.body as ErrorResponse).message).toBe('No authorization header');
     });
 
     it('should return 401 when invalid token is provided', async () => {

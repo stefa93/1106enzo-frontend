@@ -3,16 +3,11 @@ issue.
 
 ## 1. Go through all the issues and pick the next logical issue to work on
 
-Go through all the issues and pick the next logical issue to work on. Take into account the state of
-the project and use sequential thinking.
+Go through all the issues and pick the next logical issue to work on. Take into account the state of the project and use sequential thinking and reasoner.
 
-- Query Knowledge Graph Memory Server for:
-  - Related components and dependencies
-  - Previous similar issues
-  - Impact analysis
-  - Technical debt considerations
+if an issue seems to be me more then one story point, split it into multiple issues. create the new issues and put this issue as dependency in the new issues. Update the current issue with what will be picked up by the new issues.
 
-Always verify with me before chaning status, creating a branch and starting to work on an issue.
+Always verify  with me before chaning status, creating a branch and starting to work on an issue.
 
 - **List Open Issues:** Always list the issues with the following command(Dont use the tool):
 
