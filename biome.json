@@ -1,0 +1,75 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+  "organizeImports": {
+    "enabled": true
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "defaultBranch": "main"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedVariables": "error",
+        "noUndeclaredVariables": "error",
+        "useHookAtTopLevel": "error",
+        "noUnusedImports": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "error",
+        "noEmptyInterface": "off",
+        "noConsoleLog": "warn",
+        "noRedundantUseStrict": "error"
+      },
+      "style": {
+        "useImportType": "error",
+        "useShorthandArrayType": "error",
+        "noNonNullAssertion": "error",
+        "useTemplate": "error"
+      },
+      "complexity": {
+        "useLiteralKeys": "error",
+        "noBannedTypes": "off"
+      },
+      "a11y": {
+        "recommended": true,
+        "useKeyWithClickEvents": "error",
+        "useButtonType": "error"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf",
+    "ignore": []
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingCommas": "es5",
+      "semicolons": "always",
+      "arrowParentheses": "always"
+    },
+    "globals": ["strapi", "React", "describe", "test", "expect"]
+  },
+  "files": {
+    "ignore": [
+      "node_modules",
+      ".next",
+      "out",
+      "build",
+      "public",
+      "coverage",
+      "dist",
+      "mcp-tools",
+      "**/types/generated/**"
+    ]
+  }
+}

@@ -1,5 +1,5 @@
-import { describe, beforeAll, afterAll, it, expect, vi } from 'vitest';
-import { setupStrapi, cleanupStrapi } from '../../helpers/strapi';
+import { afterAll, beforeAll, describe, expect, it, type vi } from 'vitest';
+import { cleanupStrapi, setupStrapi } from '../../helpers/strapi';
 import type { ExtendedStrapi } from '../../helpers/types';
 
 let strapi: ExtendedStrapi;
@@ -32,9 +32,7 @@ describe('Task API endpoints', () => {
         creator: { id: 1 },
       };
 
-      const createMock = strapi.service('api::task.task').create as ReturnType<
-        typeof vi.fn
-      >;
+      const createMock = strapi.service('api::task.task').create as ReturnType<typeof vi.fn>;
       createMock.mockResolvedValue(mockResponse);
 
       const response = await strapi.service('api::task.task').create({
@@ -55,9 +53,7 @@ describe('Task API endpoints', () => {
         // Missing required fields
       };
 
-      const createMock = strapi.service('api::task.task').create as ReturnType<
-        typeof vi.fn
-      >;
+      const createMock = strapi.service('api::task.task').create as ReturnType<typeof vi.fn>;
       createMock.mockRejectedValue(new Error('Missing required fields'));
 
       await expect(
@@ -80,8 +76,7 @@ describe('Task API endpoints', () => {
         creator: { id: 1 },
       };
 
-      const findOneMock = strapi.service('api::task.task')
-        .findOne as ReturnType<typeof vi.fn>;
+      const findOneMock = strapi.service('api::task.task').findOne as ReturnType<typeof vi.fn>;
       findOneMock.mockResolvedValue(taskData);
 
       const retrievedTask = await strapi.service('api::task.task').findOne({
@@ -112,9 +107,7 @@ describe('Task API endpoints', () => {
         creator: { id: 1 },
       };
 
-      const updateMock = strapi.service('api::task.task').update as ReturnType<
-        typeof vi.fn
-      >;
+      const updateMock = strapi.service('api::task.task').update as ReturnType<typeof vi.fn>;
       updateMock.mockResolvedValue(mockResponse);
 
       const updatedTask = await strapi.service('api::task.task').update({
@@ -137,13 +130,10 @@ describe('Task API endpoints', () => {
     it('should delete a task successfully', async () => {
       const taskId = 1;
 
-      const deleteMock = strapi.service('api::task.task').delete as ReturnType<
-        typeof vi.fn
-      >;
+      const deleteMock = strapi.service('api::task.task').delete as ReturnType<typeof vi.fn>;
       deleteMock.mockResolvedValue({ id: taskId });
 
-      const findOneMock = strapi.service('api::task.task')
-        .findOne as ReturnType<typeof vi.fn>;
+      const findOneMock = strapi.service('api::task.task').findOne as ReturnType<typeof vi.fn>;
       findOneMock.mockResolvedValue(null);
 
       await strapi.service('api::task.task').delete({

@@ -11,12 +11,10 @@ export default {
       const { id } = ctx.state.user;
 
       // Fetch the user with their profile data
-      const user = await strapi
-        .query('plugin::users-permissions.user')
-        .findOne({
-          where: { id },
-          select: ['username', 'email', 'createdAt'],
-        });
+      const user = await strapi.query('plugin::users-permissions.user').findOne({
+        where: { id },
+        select: ['username', 'email', 'createdAt'],
+      });
 
       if (!user) {
         return ctx.notFound('User not found');

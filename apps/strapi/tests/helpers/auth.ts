@@ -1,15 +1,12 @@
-import type { ExtendedStrapi } from './types';
-import type { TestUser, User, StrapiQuery } from './types';
 import jwt from 'jsonwebtoken';
 import { vi } from 'vitest';
+import type { ExtendedStrapi } from './types';
+import type { StrapiQuery, TestUser, User } from './types';
 
 /**
  * Creates a test user in the database
  */
-export const createTestUser = async (
-  strapi: ExtendedStrapi,
-  userData: TestUser
-): Promise<User> => {
+export const createTestUser = async (strapi: ExtendedStrapi, userData: TestUser): Promise<User> => {
   // Mock the user creation
   const user: User = {
     id: 1,

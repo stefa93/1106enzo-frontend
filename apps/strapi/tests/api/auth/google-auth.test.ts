@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeAll } from 'vitest';
-import { createStrapiInstance } from '../../helpers/strapi';
-import * as dotenv from 'dotenv';
 import path from 'node:path';
+import * as dotenv from 'dotenv';
+import { beforeAll, describe, expect, it } from 'vitest';
+import { createStrapiInstance } from '../../helpers/strapi';
 import type { ExtendedStrapi } from '../../helpers/types';
 
 interface GoogleProviderConfig {
