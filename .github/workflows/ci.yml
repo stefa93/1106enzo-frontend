@@ -57,10 +57,45 @@ jobs:
       - name: Build
         run: npm run build
           
-      - name: Test
-        run: npm run test
+      - name: Unit Tests
+        run: npm run test:ci
         env:
           NODE_ENV: test
+
+      - name: Frontend E2E Tests
+        uses: cypress-io/github-action@v6
+        with:
+          command: npm run test:e2e:frontend
+          browser: chrome
+          config-file: cypress.config.ts
+
+      - name: Backend E2E Tests
+        uses: cypress-io/github-action@v6
+        with:
+          command: npm run test:e2e:backend
+          browser: chrome
+          config-file: cypress.config.ts
+
+      - name: Integration E2E Tests
+        uses: cypress-io/github-action@v6
+        with:
+          command: npm run test:e2e:integration
+          browser: chrome
+          config-file: cypress.config.ts
+
+      - name: Upload Cypress Screenshots
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          
+      - name: Upload Cypress Videos
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
           
   code-quality:
     runs-on: ubuntu-latest

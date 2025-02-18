@@ -39,7 +39,8 @@
         "useKeyWithClickEvents": "error",
         "useButtonType": "error"
       }
-    }
+    },
+    "ignore": ["**/node_modules/**", "**/.next/**", "**/cypress/**"]
   },
   "formatter": {
     "enabled": true,
