@@ -127,6 +127,11 @@ jobs:
         run: |
           npm run start:strapi &
           echo "Waiting for Strapi to be ready..."
+          sleep 10
+          echo "Creating admin user..."
+          curl -X POST http://localhost:1337/admin/register-admin \
+            -H "Content-Type: application/json" \
+            -d '{"email":"admin@example.com","password":"Admin123!","firstname":"Admin","lastname":"User"}'
           npx wait-on -t 60000 http://localhost:1337/admin/init
         env:
           APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
