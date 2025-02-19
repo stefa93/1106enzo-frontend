@@ -128,9 +128,18 @@ jobs:
           npm run start:strapi &
           echo "Waiting for Strapi to be ready..."
           npx wait-on -t 60000 http://localhost:1337/admin/init
+        env:
+          APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
+          API_TOKEN_SALT: 11111111111111111111111111111111
+          ADMIN_JWT_SECRET: 22222222222222222222222222222222
+          TRANSFER_TOKEN_SALT: 33333333333333333333333333333333
+          JWT_SECRET: 44444444444444444444444444444444
+          JWT_TOKEN_EXPIRATION: 7d
+          NODE_ENV: test
+          DATABASE_FILENAME: .tmp/test.db
 
       - name: Start Next.js server
-        if: matrix.containers == 'integration'
+        if: matrix.containers == 'integration' || matrix.containers == 'frontend'
         run: |
           npm run start:web &
           echo "Waiting for Next.js to be ready..."
