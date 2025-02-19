@@ -131,6 +131,12 @@ jobs:
         env:
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
+          APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
+          API_TOKEN_SALT: 11111111111111111111111111111111
+          ADMIN_JWT_SECRET: 22222222222222222222222222222222
+          TRANSFER_TOKEN_SALT: 33333333333333333333333333333333
+          JWT_SECRET: 44444444444444444444444444444444
+          JWT_TOKEN_EXPIRATION: 7d
 
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v4
