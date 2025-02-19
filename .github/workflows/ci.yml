@@ -98,7 +98,7 @@ jobs:
       - name: Code Coverage Summary Report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: 'apps/web/coverage/cobertura.xml'
+          filename: 'apps/*/coverage/lcov.info'
           badge: true
           format: 'markdown'
           output: 'both'
@@ -182,25 +182,23 @@ jobs:
           browser: chrome
           config-file: cypress.config.ts
           spec: cypress/e2e/${{ matrix.containers }}/**/*.cy.ts
-          # Configure baseUrl based on test type
-          config: ${{ matrix.containers == 'backend' && 'baseUrl=http://localhost:1337' || '' }}
-          # Wait for appropriate servers based on test type
+          config: baseUrl=${{ matrix.containers == 'backend' && 'http://localhost:1337' || 'http://localhost:3000' }}
           wait-on: ${{ matrix.containers == 'frontend' && 'http://localhost:3000' || matrix.containers == 'backend' && 'http://localhost:1337' || 'http://localhost:3000,http://localhost:1337' }}
           wait-on-timeout: 120
         env:
           NODE_ENV: test
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
-          # Set environment variables for integration tests
-          STRAPI_URL: ${{ matrix.containers == 'integration' && 'http://localhost:1337' || '' }}
-          NEXT_PUBLIC_STRAPI_API_URL: ${{ matrix.containers == 'integration' && 'http://localhost:1337' || '' }}
-          # Strapi environment variables for backend and integration tests
-          APP_KEYS: ${{ matrix.containers != 'frontend' && 'test-key-1,test-key-2,test-key-3,test-key-4' || '' }}
-          API_TOKEN_SALT: ${{ matrix.containers != 'frontend' && '11111111111111111111111111111111' || '' }}
-          ADMIN_JWT_SECRET: ${{ matrix.containers != 'frontend' && '22222222222222222222222222222222' || '' }}
-          TRANSFER_TOKEN_SALT: ${{ matrix.containers != 'frontend' && '33333333333333333333333333333333' || '' }}
-          JWT_SECRET: ${{ matrix.containers != 'frontend' && '44444444444444444444444444444444' || '' }}
-          JWT_TOKEN_EXPIRATION: ${{ matrix.containers != 'frontend' && '7d' || '' }}
-          DATABASE_FILENAME: ${{ matrix.containers != 'frontend' && '.tmp/test.db' || '' }}
+          # Always set these for all test types
+          STRAPI_URL: http://localhost:1337
+          NEXT_PUBLIC_STRAPI_API_URL: http://localhost:1337
+          # Unified environment variables
+          APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
+          API_TOKEN_SALT: 11111111111111111111111111111111
+          ADMIN_JWT_SECRET: 22222222222222222222222222222222
+          TRANSFER_TOKEN_SALT: 33333333333333333333333333333333
+          JWT_SECRET: 44444444444444444444444444444444
+          JWT_TOKEN_EXPIRATION: 7d
+          DATABASE_FILENAME: .tmp/test.db
 
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v4
