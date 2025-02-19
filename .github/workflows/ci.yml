@@ -83,10 +83,37 @@ jobs:
             ~/.npm
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Run unit tests
-        run: npm run test:ci
+      - name: Run unit tests with coverage
+        run: npm run test:coverage
         env:
           NODE_ENV: test
+
+      - name: Code Coverage Summary Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: 'apps/web/coverage/coverage.cobertura.xml'
+          badge: true
+          format: 'markdown'
+          output: 'both'
+
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          recreate: true
+          path: code-coverage-results.md
+
+      - name: Write to Job Summary
+        run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            apps/web/coverage
+            apps/strapi/coverage
+          retention-days: 5
 
   e2e-tests:
     needs: install
@@ -148,11 +175,17 @@ jobs:
           browser: chrome
           config-file: cypress.config.ts
           spec: cypress/e2e/${{ matrix.containers }}/**/*.cy.ts
+          # Configure baseUrl based on test type
+          config: ${{ matrix.containers == 'backend' && 'baseUrl=http://localhost:1337' || '' }}
+          # Wait for appropriate servers based on test type
           wait-on: ${{ matrix.containers == 'frontend' && 'http://localhost:3000' || matrix.containers == 'backend' && 'http://localhost:1337' || 'http://localhost:3000,http://localhost:1337' }}
           wait-on-timeout: 120
         env:
           NODE_ENV: test
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+          # Set FRONTEND_URL and STRAPI_URL for integration tests
+          FRONTEND_URL: ${{ matrix.containers == 'integration' && 'http://localhost:3000' || '' }}
+          STRAPI_URL: ${{ matrix.containers != 'frontend' && 'http://localhost:1337' || '' }}
           # Strapi environment variables for backend and integration tests
           APP_KEYS: ${{ matrix.containers != 'frontend' && 'test-key-1,test-key-2,test-key-3,test-key-4' || '' }}
           API_TOKEN_SALT: ${{ matrix.containers != 'frontend' && '11111111111111111111111111111111' || '' }}
@@ -194,6 +227,7 @@ jobs:
   coverage:
     needs: [unit-tests]
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'  # Only run on main branch
     permissions:
       pages: write
       id-token: write
@@ -202,26 +236,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Download coverage reports
+        uses: actions/download-artifact@v4
         with:
-          node-version: 18
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests with coverage
-        run: npm run test:coverage
-
-      - name: Generate Coverage Badge
-        run: |
-          COVERAGE=$(cat ./apps/web/coverage/coverage-summary.json | jq -r '.total.lines.pct')
-          COLOR=$(if [ $(echo "$COVERAGE >= 80" | bc -l) -eq 1 ]; then echo "green"; elif [ $(echo "$COVERAGE >= 60" | bc -l) -eq 1 ]; then echo "yellow"; else echo "red"; fi)
-          echo "<svg xmlns='http://www.w3.org/2000/svg' width='106' height='20'><linearGradient id='a' x2='0' y2='100%'><stop offset='0' stop-color='#bbb' stop-opacity='.1'/><stop offset='1' stop-opacity='.1'/></linearGradient><rect rx='3' width='106' height='20' fill='#555'/><rect rx='3' x='44' width='62' height='20' fill='#$COLOR'/><path fill='#$COLOR' d='M44 0h4v20h-4z'/><rect rx='3' width='106' height='20' fill='url(#a)'/><g fill='#fff' text-anchor='middle' font-family='DejaVu Sans,Verdana,Geneva,sans-serif' font-size='11'><text x='23' y='15' fill='#010101' fill-opacity='.3'>coverage</text><text x='23' y='14'>coverage</text><text x='74' y='15' fill='#010101' fill-opacity='.3'>$COVERAGE%</text><text x='74' y='14'>$COVERAGE%</text></g></svg>" > ./apps/web/coverage/badge.svg
+          name: coverage-report
+          path: coverage
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -229,7 +248,7 @@ jobs:
       - name: Upload coverage report
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./apps/web/coverage
+          path: coverage
 
       - name: Deploy to GitHub Pages
         id: deployment
