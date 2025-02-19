@@ -127,12 +127,7 @@ jobs:
         run: |
           npm run start:strapi &
           echo "Waiting for Strapi to be ready..."
-          sleep 10
-          echo "Creating admin user..."
-          curl -X POST http://localhost:1337/admin/register-admin \
-            -H "Content-Type: application/json" \
-            -d '{"email":"admin@example.com","password":"Admin123!","firstname":"Admin","lastname":"User"}'
-          npx wait-on -t 60000 http://localhost:1337/admin/init
+          npx wait-on -t 60000 http://localhost:1337
         env:
           APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
           API_TOKEN_SALT: 11111111111111111111111111111111
@@ -148,7 +143,16 @@ jobs:
         run: |
           npm run start:web &
           echo "Waiting for Next.js to be ready..."
-          npx wait-on -t 60000 http://localhost:3000
+          # Wait for Next.js to output the port number and capture it
+          while true; do
+            if PORT=$(lsof -i -P | grep "node" | grep "LISTEN" | grep -oE ':[0-9]+' | cut -d':' -f2 | head -n1); then
+              echo "Next.js is running on port $PORT"
+              echo "FRONTEND_URL=http://localhost:$PORT" >> $GITHUB_ENV
+              break
+            fi
+            sleep 1
+          done
+          npx wait-on -t 60000 http://localhost:$PORT
 
       - name: Cypress ${{ matrix.containers }} tests
         uses: cypress-io/github-action@v6
@@ -156,9 +160,10 @@ jobs:
           command: npm run test:e2e:${{ matrix.containers }}
           browser: chrome
           config-file: cypress.config.ts
-          wait-on: ${{ matrix.containers == 'frontend' && 'http://localhost:3000' || matrix.containers == 'backend' && 'http://localhost:1337' || 'http://localhost:3000,http://localhost:1337' }}
+          wait-on: ${{ matrix.containers == 'frontend' && format('http://localhost:{0}', env.FRONTEND_URL) || matrix.containers == 'backend' && 'http://localhost:1337' || format('http://localhost:{0},http://localhost:1337', env.FRONTEND_URL) }}
           wait-on-timeout: 120
         env:
+          FRONTEND_URL: ${{ env.FRONTEND_URL }}
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
           APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
