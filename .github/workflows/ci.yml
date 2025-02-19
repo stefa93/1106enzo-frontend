@@ -122,12 +122,37 @@ jobs:
             apps/strapi/build
           key: build-${{ github.sha }}
 
-      # Run the appropriate e2e test script based on the container type
-      - name: Run ${{ matrix.containers }} tests
-        run: npm run test:e2e:${{ matrix.containers }}
+      # Start Strapi for backend and integration tests
+      - name: Start Strapi
+        if: matrix.containers != 'frontend'
+        run: npm run start:strapi &
         env:
-          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+          APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
+          API_TOKEN_SALT: 11111111111111111111111111111111
+          ADMIN_JWT_SECRET: 22222222222222222222222222222222
+          TRANSFER_TOKEN_SALT: 33333333333333333333333333333333
+          JWT_SECRET: 44444444444444444444444444444444
+          JWT_TOKEN_EXPIRATION: 7d
           NODE_ENV: test
+          DATABASE_FILENAME: .tmp/test.db
+
+      # Start Next.js for frontend and integration tests
+      - name: Start Next.js
+        if: matrix.containers != 'backend'
+        run: npm run start:web &
+
+      # Run Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          config-file: cypress.config.ts
+          spec: cypress/e2e/${{ matrix.containers }}/**/*.cy.ts
+          wait-on: ${{ matrix.containers == 'frontend' && 'http://localhost:3000' || matrix.containers == 'backend' && 'http://localhost:1337' || 'http://localhost:3000,http://localhost:1337' }}
+          wait-on-timeout: 120
+        env:
+          NODE_ENV: test
+          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
           # Strapi environment variables for backend and integration tests
           APP_KEYS: ${{ matrix.containers != 'frontend' && 'test-key-1,test-key-2,test-key-3,test-key-4' || '' }}
           API_TOKEN_SALT: ${{ matrix.containers != 'frontend' && '11111111111111111111111111111111' || '' }}
