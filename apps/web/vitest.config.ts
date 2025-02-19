@@ -11,6 +11,8 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov', 'cobertura'],
+      reportsDirectory: './coverage',
+      reportFileName: 'coverage',
       exclude: [
         'node_modules/**',
         'src/test/**',
@@ -20,7 +22,6 @@ export default defineConfig({
         'coverage/**',
       ],
       include: ['src/**/*.{ts,tsx}'],
-      reportsDirectory: './coverage',
     },
     include: ['src/**/*.{test,spec}.{js,jsx,ts,tsx}'],
   },
