@@ -91,7 +91,7 @@ jobs:
       - name: Code Coverage Summary Report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: 'apps/web/coverage/coverage.cobertura.xml'
+          filename: 'apps/web/coverage/coverage-final.xml'
           badge: true
           format: 'markdown'
           output: 'both'
@@ -223,42 +223,3 @@ jobs:
         
       - name: Run Biome
         run: biome ci . 
-
-  coverage:
-    needs: [unit-tests]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'  # Only run on main branch
-    permissions:
-      pages: write
-      id-token: write
-      contents: read
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Download coverage reports
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload coverage report
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: coverage
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-      - name: Upload coverage artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: |
-            apps/web/coverage
-            apps/strapi/coverage
-          retention-days: 5 
