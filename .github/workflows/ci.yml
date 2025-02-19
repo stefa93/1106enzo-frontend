@@ -122,12 +122,28 @@ jobs:
             apps/strapi/build
           key: build-${{ github.sha }}
 
+      - name: Start Strapi server
+        if: matrix.containers != 'frontend'
+        run: |
+          npm run start:strapi &
+          echo "Waiting for Strapi to be ready..."
+          npx wait-on -t 60000 http://localhost:1337/admin/init
+
+      - name: Start Next.js server
+        if: matrix.containers == 'integration'
+        run: |
+          npm run start:web &
+          echo "Waiting for Next.js to be ready..."
+          npx wait-on -t 60000 http://localhost:3000
+
       - name: Cypress ${{ matrix.containers }} tests
         uses: cypress-io/github-action@v6
         with:
           command: npm run test:e2e:${{ matrix.containers }}
           browser: chrome
           config-file: cypress.config.ts
+          wait-on: ${{ matrix.containers == 'frontend' && 'http://localhost:3000' || matrix.containers == 'backend' && 'http://localhost:1337' || 'http://localhost:3000,http://localhost:1337' }}
+          wait-on-timeout: 120
         env:
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
@@ -137,6 +153,8 @@ jobs:
           TRANSFER_TOKEN_SALT: 33333333333333333333333333333333
           JWT_SECRET: 44444444444444444444444444444444
           JWT_TOKEN_EXPIRATION: 7d
+          NODE_ENV: test
+          DATABASE_FILENAME: .tmp/test.db
 
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v4
@@ -166,3 +184,56 @@ jobs:
         
       - name: Run Biome
         run: biome ci . 
+
+  coverage:
+    needs: [unit-tests]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      - name: Generate Coverage Badge
+        run: |
+          COVERAGE=$(cat ./apps/web/coverage/coverage-summary.json | jq -r '.total.lines.pct')
+          COLOR=$(if [ $(echo "$COVERAGE >= 80" | bc -l) -eq 1 ]; then echo "green"; elif [ $(echo "$COVERAGE >= 60" | bc -l) -eq 1 ]; then echo "yellow"; else echo "red"; fi)
+          echo "<svg xmlns='http://www.w3.org/2000/svg' width='106' height='20'><linearGradient id='a' x2='0' y2='100%'><stop offset='0' stop-color='#bbb' stop-opacity='.1'/><stop offset='1' stop-opacity='.1'/></linearGradient><rect rx='3' width='106' height='20' fill='#555'/><rect rx='3' x='44' width='62' height='20' fill='#$COLOR'/><path fill='#$COLOR' d='M44 0h4v20h-4z'/><rect rx='3' width='106' height='20' fill='url(#a)'/><g fill='#fff' text-anchor='middle' font-family='DejaVu Sans,Verdana,Geneva,sans-serif' font-size='11'><text x='23' y='15' fill='#010101' fill-opacity='.3'>coverage</text><text x='23' y='14'>coverage</text><text x='74' y='15' fill='#010101' fill-opacity='.3'>$COVERAGE%</text><text x='74' y='14'>$COVERAGE%</text></g></svg>" > ./apps/web/coverage/badge.svg
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload coverage report
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./apps/web/coverage
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            apps/web/coverage
+            apps/strapi/coverage
+          retention-days: 5 

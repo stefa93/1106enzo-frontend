@@ -36,7 +36,8 @@
     "lint-staged": "^15.2.2",
     "standard-version": "^9.5.0",
     "start-server-and-test": "^2.0.10",
-    "turbo": "latest"
+    "turbo": "latest",
+    "wait-on": "^7.2.0"
   },
   "packageManager": "npm@10.2.4",
   "engines": {
