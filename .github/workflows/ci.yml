@@ -122,58 +122,20 @@ jobs:
             apps/strapi/build
           key: build-${{ github.sha }}
 
-      - name: Start Strapi server
-        if: matrix.containers != 'frontend'
-        run: |
-          npm run start:strapi &
-          echo "Waiting for Strapi to be ready..."
-          npx wait-on -t 60000 http://localhost:1337
+      # Run the appropriate e2e test script based on the container type
+      - name: Run ${{ matrix.containers }} tests
+        run: npm run test:e2e:${{ matrix.containers }}
         env:
-          APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
-          API_TOKEN_SALT: 11111111111111111111111111111111
-          ADMIN_JWT_SECRET: 22222222222222222222222222222222
-          TRANSFER_TOKEN_SALT: 33333333333333333333333333333333
-          JWT_SECRET: 44444444444444444444444444444444
-          JWT_TOKEN_EXPIRATION: 7d
+          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
           NODE_ENV: test
-          DATABASE_FILENAME: .tmp/test.db
-
-      - name: Start Next.js server
-        if: matrix.containers == 'integration' || matrix.containers == 'frontend'
-        run: |
-          npm run start:web &
-          echo "Waiting for Next.js to be ready..."
-          # Wait for Next.js to output the port number and capture it
-          while true; do
-            if PORT=$(lsof -i -P | grep "node" | grep "LISTEN" | grep -oE ':[0-9]+' | cut -d':' -f2 | head -n1); then
-              echo "Next.js is running on port $PORT"
-              echo "FRONTEND_URL=http://localhost:$PORT" >> $GITHUB_ENV
-              break
-            fi
-            sleep 1
-          done
-          npx wait-on -t 60000 http://localhost:$PORT
-
-      - name: Cypress ${{ matrix.containers }} tests
-        uses: cypress-io/github-action@v6
-        with:
-          command: npm run test:e2e:${{ matrix.containers }}
-          browser: chrome
-          config-file: cypress.config.ts
-          wait-on: ${{ matrix.containers == 'frontend' && format('http://localhost:{0}', env.FRONTEND_URL) || matrix.containers == 'backend' && 'http://localhost:1337' || format('http://localhost:{0},http://localhost:1337', env.FRONTEND_URL) }}
-          wait-on-timeout: 120
-        env:
-          FRONTEND_URL: ${{ env.FRONTEND_URL }}
-          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
-          COMMIT_INFO_SHA: ${{ github.event.pull_request.head.sha }}
-          APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
-          API_TOKEN_SALT: 11111111111111111111111111111111
-          ADMIN_JWT_SECRET: 22222222222222222222222222222222
-          TRANSFER_TOKEN_SALT: 33333333333333333333333333333333
-          JWT_SECRET: 44444444444444444444444444444444
-          JWT_TOKEN_EXPIRATION: 7d
-          NODE_ENV: test
-          DATABASE_FILENAME: .tmp/test.db
+          # Strapi environment variables for backend and integration tests
+          APP_KEYS: ${{ matrix.containers != 'frontend' && 'test-key-1,test-key-2,test-key-3,test-key-4' || '' }}
+          API_TOKEN_SALT: ${{ matrix.containers != 'frontend' && '11111111111111111111111111111111' || '' }}
+          ADMIN_JWT_SECRET: ${{ matrix.containers != 'frontend' && '22222222222222222222222222222222' || '' }}
+          TRANSFER_TOKEN_SALT: ${{ matrix.containers != 'frontend' && '33333333333333333333333333333333' || '' }}
+          JWT_SECRET: ${{ matrix.containers != 'frontend' && '44444444444444444444444444444444' || '' }}
+          JWT_TOKEN_EXPIRATION: ${{ matrix.containers != 'frontend' && '7d' || '' }}
+          DATABASE_FILENAME: ${{ matrix.containers != 'frontend' && '.tmp/test.db' || '' }}
 
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v4
