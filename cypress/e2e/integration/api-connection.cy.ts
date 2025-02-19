@@ -13,8 +13,8 @@ describe('Frontend-Strapi Integration', () => {
     const frontendUrl = Cypress.env('FRONTEND_URL') || 'http://localhost:3000';
     cy.visit(frontendUrl);
     cy.log('Waiting for loading state...');
-    cy.get('[data-testid="tasks-loading"]', { timeout: 10000 }).should('be.visible');
-    cy.wait('@tasksRequest', { timeout: 10000 });
+    cy.get('[data-testid="tasks-loading"]').should('be.visible');
+    cy.wait('@tasksRequest');
   });
 
   it('should successfully fetch and display tasks', () => {
@@ -40,10 +40,10 @@ describe('Frontend-Strapi Integration', () => {
 
     const frontendUrl = Cypress.env('FRONTEND_URL') || 'http://localhost:3000';
     cy.visit(frontendUrl);
-    cy.wait('@tasksRequest', { timeout: 10000 });
+    cy.wait('@tasksRequest');
 
     // Verify task is displayed
-    cy.get('[data-testid="task-1"]', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-testid="task-1"]').should('be.visible');
     cy.get('[data-testid="task-1"]').within(() => {
       cy.contains('Test Task');
       cy.contains('Test Description');
@@ -63,7 +63,7 @@ describe('Frontend-Strapi Integration', () => {
 
     const frontendUrl = Cypress.env('FRONTEND_URL') || 'http://localhost:3000';
     cy.visit(frontendUrl);
-    cy.wait('@emptyTasksRequest', { timeout: 10000 });
+    cy.wait('@emptyTasksRequest');
     cy.contains('No tasks available.');
   });
 
@@ -77,8 +77,8 @@ describe('Frontend-Strapi Integration', () => {
 
     const frontendUrl = Cypress.env('FRONTEND_URL') || 'http://localhost:3000';
     cy.visit(frontendUrl);
-    cy.wait('@failedRequest', { timeout: 10000 });
-    cy.get('[data-testid="tasks-error"]', { timeout: 10000 }).should('be.visible');
+    cy.wait('@failedRequest');
+    cy.get('[data-testid="tasks-error"]').should('be.visible');
     cy.get('[data-testid="tasks-error"]').contains('Failed to fetch tasks');
   });
 });
