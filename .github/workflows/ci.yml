@@ -88,10 +88,17 @@ jobs:
         env:
           NODE_ENV: test
 
+      - name: List coverage directory
+        run: |
+          echo "Web coverage directory:"
+          ls -la apps/web/coverage/
+          echo "Strapi coverage directory:"
+          ls -la apps/strapi/coverage/
+
       - name: Code Coverage Summary Report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: 'apps/web/coverage/coverage-final.xml'
+          filename: 'apps/web/coverage/cobertura-coverage.xml'
           badge: true
           format: 'markdown'
           output: 'both'
@@ -183,9 +190,9 @@ jobs:
         env:
           NODE_ENV: test
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
-          # Set FRONTEND_URL and STRAPI_URL for integration tests
-          FRONTEND_URL: ${{ matrix.containers == 'integration' && 'http://localhost:3000' || '' }}
-          STRAPI_URL: ${{ matrix.containers != 'frontend' && 'http://localhost:1337' || '' }}
+          # Set environment variables for integration tests
+          STRAPI_URL: ${{ matrix.containers == 'integration' && 'http://localhost:1337' || '' }}
+          NEXT_PUBLIC_STRAPI_API_URL: ${{ matrix.containers == 'integration' && 'http://localhost:1337' || '' }}
           # Strapi environment variables for backend and integration tests
           APP_KEYS: ${{ matrix.containers != 'frontend' && 'test-key-1,test-key-2,test-key-3,test-key-4' || '' }}
           API_TOKEN_SALT: ${{ matrix.containers != 'frontend' && '11111111111111111111111111111111' || '' }}
