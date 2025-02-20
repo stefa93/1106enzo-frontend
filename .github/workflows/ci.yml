@@ -15,56 +15,210 @@ env:
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
 jobs:
-  build-and-test:
+  install:
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        node-version: [18.x]
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
           cache: 'npm'
           
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        id: node-cache
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        id: npm-cache
         with:
           path: |
             **/node_modules
             ~/.npm
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-modules-
-            
+            ${{ runner.os }}-npm-
+
       - name: Install dependencies
-        if: steps.node-cache.outputs.cache-hit != 'true'
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci
-        
+
       - name: Cache Turbo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-
-            
+
       - name: Build
         run: npm run build
-          
-      - name: Test
-        run: npm run test
+
+      - name: Save build output
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            apps/web/.next
+            apps/strapi/dist
+            apps/strapi/build
+          key: build-${{ github.sha }}
+
+  unit-tests:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Restore dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            **/node_modules
+            ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Run unit tests with coverage
+        run: npm run test:coverage
         env:
           NODE_ENV: test
+
+      - name: List coverage directory
+        run: |
+          echo "Web coverage directory:"
+          ls -la apps/web/coverage/
+          echo "Strapi coverage directory:"
+          ls -la apps/strapi/coverage/
+
+      # Report Web Coverage
+      - name: Report Web Coverage
+        uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          working-directory: 'apps/web'
+          json-summary-path: './coverage/coverage-summary.json'
+          json-final-path: './coverage/coverage-final.json'
+          name: 'Web Coverage'
+
+      # Report Strapi Coverage
+      - name: Report Strapi Coverage
+        uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          working-directory: 'apps/strapi'
+          json-summary-path: './coverage/coverage-summary.json'
+          json-final-path: './coverage/coverage-final.json'
+          name: 'Strapi Coverage'
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            apps/web/coverage
+            apps/strapi/coverage
+          retention-days: 5
+
+  e2e-tests:
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [frontend, backend, integration]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Restore dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            **/node_modules
+            ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Restore build
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            apps/web/.next
+            apps/strapi/dist
+            apps/strapi/build
+          key: build-${{ github.sha }}
+
+      # Start Strapi for backend and integration tests
+      - name: Start Strapi
+        if: matrix.containers != 'frontend'
+        run: npm run start:strapi &
+        env:
+          APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
+          API_TOKEN_SALT: 11111111111111111111111111111111
+          ADMIN_JWT_SECRET: 22222222222222222222222222222222
+          TRANSFER_TOKEN_SALT: 33333333333333333333333333333333
+          JWT_SECRET: 44444444444444444444444444444444
+          JWT_TOKEN_EXPIRATION: 7d
+          NODE_ENV: test
+          DATABASE_FILENAME: .tmp/test.db
+
+      # Start Next.js for frontend and integration tests
+      - name: Start Next.js
+        if: matrix.containers != 'backend'
+        env:
+          NEXT_PUBLIC_STRAPI_URL: http://localhost:1337
+        run: npm run start:web &
+
+      # Run Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          config-file: cypress.config.ts
+          spec: cypress/e2e/${{ matrix.containers }}/**/*.cy.ts
+          config: baseUrl=${{ matrix.containers == 'backend' && 'http://localhost:1337' || 'http://localhost:3000' }}
+          wait-on: ${{ matrix.containers == 'frontend' && 'http://localhost:3000' || matrix.containers == 'backend' && 'http://localhost:1337' || 'http://localhost:3000,http://localhost:1337' }}
+          wait-on-timeout: 120
+        env:
+          NODE_ENV: test
+          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+          # Always set these for all test types
+          NEXT_PUBLIC_STRAPI_URL: http://localhost:1337
+          # Unified environment variables
+          APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
+          API_TOKEN_SALT: 11111111111111111111111111111111
+          ADMIN_JWT_SECRET: 22222222222222222222222222222222
+          TRANSFER_TOKEN_SALT: 33333333333333333333333333333333
+          JWT_SECRET: 44444444444444444444444444444444
+          JWT_TOKEN_EXPIRATION: 7d
+          DATABASE_FILENAME: .tmp/test.db
+
+      - name: Upload Cypress Screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots-${{ matrix.containers }}
+          path: cypress/screenshots
+          retention-days: 5
+          
+      - name: Upload Cypress Videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-videos-${{ matrix.containers }}
+          path: cypress/videos
+          retention-days: 5
           
   code-quality:
     runs-on: ubuntu-latest
-    
     steps:
       - uses: actions/checkout@v4
       

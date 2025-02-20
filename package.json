@@ -9,9 +9,19 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "test:ci": "turbo run test:ci",
-    "test:coverage": "turbo run test:coverage",
+    "test:coverage": "turbo run test:coverage --force",
     "clean": "turbo run clean",
-    "release": "standard-version"
+    "release": "standard-version",
+    "cypress": "cypress open",
+    "cypress:headless": "cypress run",
+    "start:web": "npm run dev --workspace=@enzo/web",
+    "start:strapi": "npm run dev --workspace=@enzo/strapi",
+    "cypress:dev": "start-test start:strapi http://localhost:1337/admin/init start:web http-get://localhost:3000-3010 'cypress open'",
+    "test:e2e": "start-server-and-test 'turbo run dev' 'http-get://localhost:3000-3010 http://localhost:1337' cypress",
+    "test:e2e:headless": "start-server-and-test 'turbo run dev' 'http-get://localhost:3000-3010 http://localhost:1337' cypress:headless",
+    "test:e2e:frontend": "start-server-and-test 'npm run dev --workspace=@enzo/web' http-get://localhost:3000-3010 'cypress run --spec \"cypress/e2e/frontend/**/*.cy.ts\"'",
+    "test:e2e:backend": "start-server-and-test 'npm run dev --workspace=@enzo/strapi' http://localhost:1337 'cypress run --config baseUrl=http://localhost:1337 --spec \"cypress/e2e/backend/**/*.cy.ts\"'",
+    "test:e2e:integration": "start-test start:strapi http://localhost:1337 start:web http-get://localhost:3000-3010 'cypress run --spec \"cypress/e2e/integration/**/*.cy.ts\"'"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md,json}": ["biome format --write", "biome lint"]
@@ -21,9 +31,13 @@
     "@commitlint/cli": "^19.0.3",
     "@commitlint/config-conventional": "^19.0.3",
     "@evilmartians/lefthook": "^1.6.4",
+    "@testing-library/cypress": "^10.0.3",
+    "cypress": "^14.0.3",
     "lint-staged": "^15.2.2",
     "standard-version": "^9.5.0",
-    "turbo": "latest"
+    "start-server-and-test": "^2.0.10",
+    "turbo": "latest",
+    "wait-on": "^7.2.0"
   },
   "packageManager": "npm@10.2.4",
   "engines": {
