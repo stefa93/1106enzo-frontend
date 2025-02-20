@@ -1,9 +1,10 @@
 {
-  "name": "strapi",
+  "name": "@enzo/strapi",
   "version": "0.1.0",
   "private": true,
   "description": "A Strapi application",
   "scripts": {
+    "dev": "strapi develop",
     "build": "strapi build",
     "deploy": "strapi deploy",
     "develop": "strapi develop",
