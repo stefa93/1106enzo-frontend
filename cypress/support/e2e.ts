@@ -1,6 +1,9 @@
 // Import Testing Library Cypress commands
 import '@testing-library/cypress/add-commands';
 
+// Import our custom commands
+import './commands';
+
 declare global {
   namespace Cypress {
     interface Window {

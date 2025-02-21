@@ -35,3 +35,13 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('verifyToast', (type: 'success' | 'error', message: string) => {
+  // Get the toast container
+  cy.get('.Toastify__toast-container--bottom-right').should('be.visible');
+
+  // Get the specific toast
+  cy.get(`.Toastify__toast--${type}`).should('be.visible').and('contain', message);
+
+  return cy.get(`.Toastify__toast--${type}`);
+});
