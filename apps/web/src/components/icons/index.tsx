@@ -1,3 +1,7 @@
-import { Bell, Check } from 'lucide-react';
+'use client';
 
-export { Bell, Check };
+import type { LucideProps } from 'lucide-react';
+
+export type IconProps = LucideProps;
+
+export { Icon } from 'lucide-react';

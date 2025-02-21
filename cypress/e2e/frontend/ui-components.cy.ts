@@ -5,6 +5,38 @@ describe('UI Components', () => {
     cy.get('[data-testid="ui-test"]').should('be.visible');
   });
 
+  describe('Icons', () => {
+    it('should render icons with correct styles', () => {
+      // Check Bell icon
+      cy.get('[data-testid="icon-bell"]')
+        .should('be.visible')
+        .and('have.class', 'h-6')
+        .and('have.class', 'w-6')
+        .and('have.class', 'text-brand');
+
+      // Check Menu icon
+      cy.get('[data-testid="icon-menu"]')
+        .should('be.visible')
+        .and('have.class', 'h-6')
+        .and('have.class', 'w-6')
+        .and('have.class', 'text-brand-600');
+
+      // Check ChevronRight icon
+      cy.get('[data-testid="icon-chevron"]')
+        .should('be.visible')
+        .and('have.class', 'h-4')
+        .and('have.class', 'w-4')
+        .and('have.class', 'text-brand-800');
+    });
+
+    it('should render icons as SVG elements', () => {
+      // Verify each icon is an SVG element
+      cy.get('[data-testid="icon-bell"]').should('be.visible').and('match', 'svg');
+      cy.get('[data-testid="icon-menu"]').should('be.visible').and('match', 'svg');
+      cy.get('[data-testid="icon-chevron"]').should('be.visible').and('match', 'svg');
+    });
+  });
+
   describe('Toast Notifications', () => {
     it('should show and auto-close success toast', () => {
       // Click success button

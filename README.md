@@ -17,6 +17,41 @@ A monorepo containing the enZo project applications and shared packages.
     └── shared/       # Shared code and utilities
 ```
 
+## Icons
+
+The project uses `lucide-react` for icons. Import and use icons directly as React components:
+
+```tsx
+import { Bell } from 'lucide-react';
+
+// Use icons as components with Tailwind classes for styling
+<Bell className="h-6 w-6 text-brand" />
+```
+
+### Icon Guidelines
+
+- Import icons in PascalCase from `lucide-react` (e.g., `Bell`, `ChevronRight`)
+- Use icons directly as React components
+- Follow the brand color system with `text-brand-{shade}` classes
+- Use consistent sizing with Tailwind classes:
+  - Default: `h-6 w-6` (24px)
+  - Small: `h-4 w-4` (16px)
+  - Large: `h-8 w-8` (32px)
+
+### TypeScript Configuration
+
+To ensure proper TypeScript support for lucide-react icons in Next.js 14, add the following to your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "react": ["./node_modules/@types/react"]
+    }
+  }
+}
+```
+
 ## Development
 
 This project uses Turborepo for monorepo management. Common commands:
