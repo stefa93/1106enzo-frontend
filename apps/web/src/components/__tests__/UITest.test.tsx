@@ -18,12 +18,27 @@ describe('UITest Component', () => {
     // Check for main heading
     expect(screen.getByText('UI Components Test')).toBeInTheDocument();
 
-    // Check for section heading
+    // Check for section headings
+    expect(screen.getByText('Icons Test')).toBeInTheDocument();
     expect(screen.getByText('Toast Notifications Test')).toBeInTheDocument();
 
     // Check for buttons
     expect(screen.getByText('Show Success Toast')).toBeInTheDocument();
     expect(screen.getByText('Show Error Toast')).toBeInTheDocument();
+  });
+
+  it('renders icons with correct styles', () => {
+    render(<UITest />);
+
+    // Find icons by their class names
+    const bell = screen.getByTestId('icon-bell');
+    const menu = screen.getByTestId('icon-menu');
+    const chevron = screen.getByTestId('icon-chevron');
+
+    // Check if icons have the correct classes
+    expect(bell).toHaveClass('h-6', 'w-6', 'text-brand');
+    expect(menu).toHaveClass('h-6', 'w-6', 'text-brand-600');
+    expect(chevron).toHaveClass('h-4', 'w-4', 'text-brand-800');
   });
 
   it('calls toast.success with correct parameters when clicking success button', () => {
