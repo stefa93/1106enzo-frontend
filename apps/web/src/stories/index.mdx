@@ -1,0 +1,165 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Getting Started" />
+
+# Enzo Design System
+
+Welcome to the Enzo Design System documentation. This guide will help you understand our component library and design patterns.
+
+## Component Organization
+
+Our components are organized into the following categories:
+
+### UI Components
+Located in `src/components/ui/`, these are our basic building blocks:
+- Button
+- Toast
+- IconGrid
+- Input fields
+- Form elements
+
+### Feature Components
+Located in `src/components/features/`, these are domain-specific components:
+- Task management components
+- User profile components
+- Dashboard widgets
+
+### Layout Components
+Located in `src/components/layouts/`, these handle page structure:
+- Page layouts
+- Navigation components
+- Header/Footer
+
+### Icons
+Located in `src/components/icons/`:
+- Lucide React icons
+- Custom SVG icons
+
+## Getting Started
+
+1. Browse components by category in the sidebar
+2. Each component includes:
+   - Interactive preview
+   - Props documentation
+   - Code examples
+   - Usage guidelines
+
+## Design Tokens
+
+We use Tailwind CSS for styling with custom theme configuration:
+- Colors
+- Typography
+- Spacing
+- Breakpoints
+- Dark mode variants
+
+## Best Practices
+
+1. Component Usage:
+   - Import from appropriate directory
+   - Use TypeScript props interface
+   - Follow mobile-first approach
+
+2. Stories:
+   - Place in `stories/` next to component
+   - Include common use cases
+   - Document props and variants
+
+3. Styling:
+   - Use Tailwind classes
+   - Support dark mode
+   - Follow responsive design
+
+## Contributing
+
+See our [Contributing Guide](./Contributing.mdx) for:
+- Component development
+- Story writing
+- Testing requirements
+
+## Changelog
+
+Track updates in our [Changelog](./Changelog.mdx).
+
+## Quick Links
+
+- [Design Tokens](/?path=/docs/design-tokens--docs)
+- [Contributing](/?path=/docs/contributing--docs)
+- [Changelog](/?path=/docs/changelog--docs)
+
+## Component Categories
+
+Our components are organized following the Atomic Design methodology:
+
+### Atoms
+Basic building blocks of matter, applied to web interfaces. These are simplest components that can't be broken down any further:
+- [Button](/?path=/docs/atoms-button--docs)
+- Icons
+- Input fields
+- Typography
+
+### Molecules
+Groups of atoms bonded together to form a functional unit:
+- Forms
+- Search bars
+- Navigation items
+- Cards
+
+### Organisms
+Complex UI patterns composed of groups of molecules:
+- Navigation bars
+- Forms
+- Page sections
+
+## Tech Stack
+
+Our design system is built with:
+- Next.js 14 with App Router
+- TypeScript
+- Tailwind CSS
+- React Server Components (with "use client" when needed)
+
+### Key Features
+
+- 🎨 Modern UI components
+- 🌙 Dark mode support
+- 📱 Responsive design
+- ♿️ Accessibility first
+- 🚀 Performance optimized
+
+## Getting Started
+
+### Installation
+
+```bash
+npm install
+npm run dev
+```
+
+### Usage
+
+```tsx
+import { Button } from '@/components/atoms/Button';
+
+export default function MyComponent() {
+  return (
+    <Button variant="primary" size="md">
+      Click me
+    </Button>
+  );
+}
+```
+
+## Best Practices
+
+- Use TypeScript for type safety
+- Follow accessibility guidelines
+- Keep components focused and single-purpose
+- Document component usage and props
+- Write meaningful tests
+
+## Need Help?
+
+- Check our [Contributing Guide](/?path=/docs/documentation-contributing--docs)
+- Review the [Design Tokens](/?path=/docs/documentation-design-tokens--docs)
+- See recent updates in the [Changelog](/?path=/docs/documentation-changelog--docs) 

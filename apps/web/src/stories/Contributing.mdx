@@ -1,0 +1,182 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Contributing" />
+
+# Contributing Guide
+
+## Component Development
+
+### Directory Structure
+
+Place new components in the appropriate directory:
+
+```
+src/components/
+├── ui/               # Basic UI components
+│   └── stories/     # UI component stories
+├── features/        # Feature-specific components
+├── layouts/         # Layout components
+└── icons/          # Icon components
+```
+
+### Creating a New Component
+
+1. Choose the right directory based on component type
+2. Create files:
+   ```
+   ComponentName/
+   ├── ComponentName.tsx
+   ├── ComponentName.test.tsx
+   └── stories/
+       └── ComponentName.stories.tsx
+   ```
+
+3. Use TypeScript interfaces:
+   ```tsx
+   interface ComponentProps extends BaseProps {
+     variant?: 'primary' | 'secondary';
+     // ... other props
+   }
+   ```
+
+4. Add `'use client'` if needed:
+   ```tsx
+   'use client';
+   
+   export const Component = ({ ...props }: ComponentProps) => {
+     // ... component code
+   };
+   ```
+
+### Writing Stories
+
+1. Create story file in `stories/`:
+   ```tsx
+   import type { Meta, StoryObj } from '@storybook/react';
+   import { Component } from '../Component';
+   
+   const meta: Meta<typeof Component> = {
+     title: 'UI/Component',
+     component: Component,
+     tags: ['autodocs'],
+   };
+   
+   export default meta;
+   type Story = StoryObj<typeof Component>;
+   
+   export const Default: Story = {
+     args: {
+       // ... props
+     },
+   };
+   ```
+
+2. Include variants and states
+3. Add documentation
+4. Test responsive behavior
+
+### Testing
+
+1. Write unit tests:
+   ```tsx
+   import { render, fireEvent } from '@testing-library/react';
+   import { Component } from './Component';
+   
+   describe('Component', () => {
+     it('renders correctly', () => {
+       // ... test code
+     });
+   });
+   ```
+
+2. Test accessibility
+3. Test responsive behavior
+4. Test dark mode
+
+### Styling Guidelines
+
+1. Use Tailwind CSS:
+   ```tsx
+   <div className="flex items-center space-x-4 dark:bg-gray-800">
+     {/* component content */}
+   </div>
+   ```
+
+2. Follow mobile-first approach
+3. Support dark mode with `dark:` classes
+4. Use design tokens from theme
+
+### Documentation
+
+1. Add JSDoc comments:
+   ```tsx
+   /**
+    * Component description
+    * @param props - Component props
+    * @param props.variant - Visual style variant
+    */
+   ```
+
+2. Include usage examples
+3. Document props interface
+4. Add accessibility notes
+
+## Pull Request Process
+
+1. Create feature branch
+2. Follow naming conventions
+3. Add tests and stories
+4. Update documentation
+5. Request review
+
+## Development Workflow
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Start Storybook:
+   ```bash
+   npm run storybook
+   ```
+
+3. Run tests:
+   ```bash
+   npm test
+   ```
+
+4. Build:
+   ```bash
+   npm run build
+   ```
+
+## Best Practices
+
+### Components
+- Keep components focused and single-purpose
+- Use TypeScript interfaces for props
+- Follow atomic design principles
+- Implement proper accessibility attributes
+- Use Tailwind for styling
+
+### Stories
+- Include overview/documentation
+- Add playground story with controls
+- Show component variants
+- Include usage examples
+- Test edge cases
+
+### Documentation
+- Keep docs up to date
+- Include code examples
+- Document props and usage
+- Add accessibility notes
+- Show use cases
+
+## Need Help?
+
+- Check existing issues
+- Join our Discord community
+- Read our documentation
+- Ask in our discussion forum 
