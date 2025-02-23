@@ -2,6 +2,16 @@
 
 This is the main web application for the Enzo project, built with Next.js 15 and TypeScript.
 
+## Project Structure
+
+The project follows a feature-based architecture with:
+- UI components in `src/components/ui/`
+- Feature components in `src/components/features/`
+- Layout components in `src/components/layouts/`
+- Icons in `src/components/icons/`
+
+For detailed architecture documentation, see [ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 ## Requirements
 
 - Node.js >= 18.18.0
@@ -31,30 +41,37 @@ To build the application:
 npm run build
 ```
 
+## Documentation
+
+- [Architecture Guide](docs/ARCHITECTURE.md) - Detailed project structure and conventions
+- [Testing Guide](docs/TESTING.md) - Testing practices and setup
+- [ESLint Guide](docs/eslint.md) - Code style and linting rules
+
 ## TypeScript
 
-This project uses TypeScript in strict mode. All files are type-checked during build.
+This project uses TypeScript in strict mode with:
+- Shared types in `src/lib/types.ts`
+- Strict type checking during build
+- No use of `any` type
 
-This project uses
-[`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to
-automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Styling
+
+We use Tailwind CSS for styling with:
+- Mobile-first approach
+- Dark mode support
+- Custom theme configuration
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font).
 
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback
-and contributions are welcome!
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Learn Next.js](https://nextjs.org/learn)
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the
-[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
 
-Check out our
-[Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying)
-for more details.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

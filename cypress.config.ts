@@ -13,6 +13,14 @@ export default defineConfig({
       FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
       STRAPI_URL: process.env.STRAPI_URL || 'http://localhost:1337',
       API_TOKEN: process.env.STRAPI_API_TOKEN,
+      STORYBOOK_URL: process.env.STORYBOOK_URL || 'http://localhost:6006', // Add Storybook URL
+    },
+    setupNodeEvents(_on, config) {
+      // Override baseUrl for Storybook tests
+      if (config.spec && typeof config.spec === 'string' && config.spec.includes('storybook')) {
+        config.baseUrl = config.env.STORYBOOK_URL;
+      }
+      return config;
     },
   },
   component: {
@@ -20,5 +28,6 @@ export default defineConfig({
       framework: 'next',
       bundler: 'webpack',
     },
+    specPattern: 'src/**/*.stories.{js,jsx,ts,tsx}', // Add pattern for story files
   },
 });

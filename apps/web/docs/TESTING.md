@@ -1,15 +1,112 @@
-# Unit Testing Guidelines
+# Testing Guide
 
-## Overview
+## Testing Structure
 
-This project uses Vitest as the testing framework along with React Testing Library for component
-testing. All tests are written using TypeScript.
+Our testing follows the project's component organization:
 
-## Test Structure
+```
+src/
+├── components/
+│   ├── ui/
+│   │   ├── __tests__/      # UI component tests
+│   │   └── stories/        # UI component stories
+│   ├── features/
+│   │   └── __tests__/      # Feature component tests
+│   └── layouts/
+│       └── __tests__/      # Layout component tests
+└── __tests__/              # Global test utilities
+```
 
-- Tests are located next to the code they test in `__tests__` directories
-- Test files should follow the naming convention: `*.test.ts` or `*.test.tsx`
-- Use descriptive test names that explain the expected behavior
+## Component Testing
+
+### UI Components
+UI components in `src/components/ui/` should have:
+- Unit tests in `__tests__/`
+- Storybook stories in `stories/`
+- Focus on component behavior and styling
+
+Example:
+```tsx
+// Button.test.tsx
+import { render, fireEvent } from '@testing-library/react'
+import { Button } from '../Button'
+
+describe('Button', () => {
+  it('renders with default props', () => {
+    const { getByRole } = render(<Button>Click me</Button>)
+    expect(getByRole('button')).toBeInTheDocument()
+  })
+
+  it('handles click events', () => {
+    const onClick = vi.fn()
+    const { getByRole } = render(<Button onClick={onClick}>Click me</Button>)
+    fireEvent.click(getByRole('button'))
+    expect(onClick).toHaveBeenCalled()
+  })
+})
+```
+
+### Feature Components
+Feature components in `src/components/features/` should have:
+- Integration tests focusing on feature behavior
+- Tests for data fetching and state management
+- Mocked API calls where necessary
+
+Example:
+```tsx
+// TaskList.test.tsx
+import { render, waitFor } from '@testing-library/react'
+import { TaskList } from '../TaskList'
+
+describe('TaskList', () => {
+  it('renders tasks from API', async () => {
+    const { getAllByRole } = render(<TaskList />)
+    await waitFor(() => {
+      expect(getAllByRole('listitem')).toHaveLength(3)
+    })
+  })
+})
+```
+
+### Layout Components
+Layout components in `src/components/layouts/` should test:
+- Proper rendering of child components
+- Responsive behavior
+- Navigation elements
+
+## Test Types
+
+1. Unit Tests
+   - Individual component behavior
+   - Utility functions
+   - Type checking
+
+2. Integration Tests
+   - Feature components
+   - API interactions
+   - State management
+
+3. E2E Tests (Cypress)
+   - User flows
+   - Critical paths
+   - Cross-browser compatibility
+
+## Best Practices
+
+1. Component Testing:
+   - Test behavior, not implementation
+   - Use meaningful test descriptions
+   - Follow AAA pattern (Arrange, Act, Assert)
+
+2. Mocking:
+   - Mock external dependencies
+   - Use MSW for API mocking
+   - Keep mocks close to tests
+
+3. Coverage:
+   - Aim for 80% coverage
+   - Focus on business logic
+   - Don't test implementation details
 
 ## Running Tests
 
@@ -17,93 +114,20 @@ testing. All tests are written using TypeScript.
 # Run all tests
 npm test
 
-# Watch mode for development
-npm run test:watch
+# Run tests in watch mode
+npm test:watch
 
-# Generate coverage report
-npm run test:coverage
+# Run with coverage
+npm test:coverage
+
+# Run E2E tests
+npm run cypress
 ```
 
-## Writing Tests
+## Tools
 
-### Utilities and Functions
-
-- Test the function's main purpose
-- Include edge cases
-- Test error conditions
-- Group related tests using `describe` blocks
-
-Example:
-
-```typescript
-describe('utilityFunction', () => {
-  it('should handle normal case', () => {
-    // test code
-  });
-
-  it('should handle edge case', () => {
-    // test code
-  });
-});
-```
-
-### React Components
-
-- Use React Testing Library
-- Test behavior, not implementation
-- Focus on user interaction
-- Use semantic queries (getByRole, getByLabelText, etc.)
-
-Example:
-
-```typescript
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-
-describe('Component', () => {
-  it('should render correctly', () => {
-    render(<Component />);
-    expect(screen.getByRole('button')).toBeInTheDocument();
-  });
-
-  it('should handle user interaction', async () => {
-    render(<Component />);
-    await userEvent.click(screen.getByRole('button'));
-    expect(screen.getByText('Clicked!')).toBeInTheDocument();
-  });
-});
-```
-
-## Best Practices
-
-1. Write tests before implementing features (TDD)
-2. Keep tests simple and focused
-3. Use meaningful assertions
-4. Don't test implementation details
-5. Follow the Arrange-Act-Assert pattern
-6. Use setup and cleanup when needed
-
-## Coverage Requirements
-
-- Aim for at least 80% code coverage
-- Focus on critical business logic
-- Don't chase 100% coverage at the expense of meaningful tests
-
-## Mocking
-
-- Use mocks sparingly
-- Mock external dependencies
-- Keep mocks simple and maintainable
-- Use `vi.mock()` for module mocking
-
-Example:
-
-```typescript
-import { vi } from 'vitest';
-
-vi.mock('axios', () => ({
-  default: {
-    get: vi.fn(),
-  },
-}));
-```
+- Vitest for unit/integration tests
+- React Testing Library for component tests
+- MSW for API mocking
+- Cypress for E2E testing
+- Storybook for component development
