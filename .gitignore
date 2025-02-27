@@ -99,7 +99,6 @@ build/
 mcp-tools/
 
 # pnpm
-pnpm-lock.yaml
 
 # storybook
 storybook-static/
