@@ -1,0 +1,76 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Foundation/Spacing" />
+
+# Spacing System
+
+Our spacing system uses a consistent scale based on Tailwind's default spacing scale, with some custom additions for our specific needs.
+
+## Spacing Scale
+
+We use a 4px (0.25rem) base unit for our spacing scale:
+
+- `space-0`: 0px
+- `space-1`: 4px (0.25rem)
+- `space-2`: 8px (0.5rem)
+- `space-3`: 12px (0.75rem)
+- `space-4`: 16px (1rem)
+- `space-6`: 24px (1.5rem)
+- `space-8`: 32px (2rem)
+- `space-12`: 48px (3rem)
+- `space-16`: 64px (4rem)
+
+## Usage
+
+### Margin
+```tsx
+<div className="m-4">All sides</div>
+<div className="mx-4">Horizontal</div>
+<div className="my-4">Vertical</div>
+<div className="mt-4">Top</div>
+<div className="mr-4">Right</div>
+<div className="mb-4">Bottom</div>
+<div className="ml-4">Left</div>
+```
+
+### Padding
+```tsx
+<div className="p-4">All sides</div>
+<div className="px-4">Horizontal</div>
+<div className="py-4">Vertical</div>
+<div className="pt-4">Top</div>
+<div className="pr-4">Right</div>
+<div className="pb-4">Bottom</div>
+<div className="pl-4">Left</div>
+```
+
+### Gap
+```tsx
+<div className="space-y-4">Vertical spacing between children</div>
+<div className="space-x-4">Horizontal spacing between children</div>
+<div className="gap-4">Grid/Flex gap</div>
+```
+
+## Best Practices
+
+1. **Consistency**
+   - Use the spacing scale consistently
+   - Avoid arbitrary values
+
+2. **Responsive Design**
+   - Use responsive modifiers when needed
+   ```tsx
+   <div className="p-4 md:p-6 lg:p-8">
+     Responsive padding
+   </div>
+   ```
+
+3. **Component Spacing**
+   - Use margin for external spacing
+   - Use padding for internal spacing
+   - Use gap for component children
+
+4. **Layout Spacing**
+   - Larger spacing values for page sections
+   - Smaller spacing for component internals
+   - Consistent vertical rhythm 

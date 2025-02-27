@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@enzo/ui';
 import { Bell, ChevronRight, Menu } from 'lucide-react';
 import { toast } from 'react-toastify';
 
@@ -43,22 +44,17 @@ export default function UITest() {
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">Toast Notifications Test</h3>
           <div className="flex gap-4">
-            <button
-              type="button"
-              data-testid="show-success-toast"
-              onClick={showSuccessToast}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
-            >
+            <Button data-testid="show-success-toast" onClick={showSuccessToast} variant="primary">
               Show Success Toast
-            </button>
-            <button
-              type="button"
+            </Button>
+            <Button
               data-testid="show-error-toast"
               onClick={showErrorToast}
-              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+              variant="outline"
+              className="bg-red-500 text-white hover:bg-red-600"
             >
               Show Error Toast
-            </button>
+            </Button>
           </div>
         </div>
       </div>

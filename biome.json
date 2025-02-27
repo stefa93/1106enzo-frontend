@@ -58,7 +58,7 @@
       "semicolons": "always",
       "arrowParentheses": "always"
     },
-    "globals": ["strapi", "React", "describe", "test", "expect"]
+    "globals": ["strapi", "React", "describe", "test", "expect", "it", "cy"]
   },
   "files": {
     "ignore": [

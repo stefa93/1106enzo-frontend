@@ -4,7 +4,13 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "inputs": ["$TURBO_DEFAULT$", "!**/*.stories.{tsx,jsx,mdx}"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "build:storybook": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "**/*.stories.{tsx,jsx,mdx}", "**/*.mdx", ".storybook/**"],
+      "outputs": ["storybook-static/**"]
     },
     "lint": {
       "outputs": []

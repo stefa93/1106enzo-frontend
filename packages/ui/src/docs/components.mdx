@@ -1,0 +1,106 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Organization" />
+
+# Component Organization
+
+Our components are organized by their functionality to make them easy to discover and maintain.
+
+## Directory Structure
+
+Each component is placed in a category based on its primary function:
+
+### Actions
+Components for user interactions:
+- Buttons
+- Links
+- Menu items
+- Action icons
+
+### Data Display
+Components for showing data:
+- Tables
+- Lists
+- Cards
+- Badges
+- Stats
+
+### Feedback
+Components that provide user feedback:
+- Alerts
+- Toasts
+- Progress bars
+- Loading states
+- Error messages
+
+### Forms
+Input and form-related components:
+- Text inputs
+- Select menus
+- Checkboxes
+- Radio buttons
+- Form layouts
+
+### Layout
+Components for page structure:
+- Grid systems
+- Containers
+- Dividers
+- Spacing
+
+### Navigation
+Components for moving between views:
+- Navigation bars
+- Tabs
+- Breadcrumbs
+- Pagination
+
+### Overlays
+Components that overlay the UI:
+- Modals
+- Dialogs
+- Tooltips
+- Popovers
+
+### Typography
+Text-related components:
+- Headings
+- Paragraphs
+- Text styles
+- Lists
+
+## Usage Examples
+
+Import components from their respective categories:
+
+```tsx
+// Actions
+import { Button } from '@1106enzo/ui/components/actions';
+
+// Forms
+import { Input } from '@1106enzo/ui/components/forms';
+
+// Data Display
+import { Card } from '@1106enzo/ui/components/data';
+```
+
+## Best Practices
+
+1. **Component Placement**
+   - Place each component in the most appropriate category
+   - If a component could fit multiple categories, choose based on its primary function
+
+2. **File Structure**
+   - Each component should have its own directory
+   - Include the component, stories, and tests together
+   ```
+   actions/
+   ├── Button/
+   │   ├── Button.tsx
+   │   ├── Button.stories.tsx
+   │   └── Button.test.tsx
+   ```
+
+3. **Importing Components**
+   - Always import from the category level
+   - Use named exports for consistency 

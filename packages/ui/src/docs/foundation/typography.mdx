@@ -1,0 +1,109 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Foundation/Typography" />
+
+# Typography
+
+Our typography system uses the Inter font family and follows a consistent scale for readability and hierarchy.
+
+## Font Family
+
+We use Inter as our primary font family:
+
+```tsx
+// Default body text
+<p className="font-sans">
+  This text uses Inter font family
+</p>
+```
+
+## Type Scale
+
+Our type scale is designed to create clear hierarchies:
+
+<div className="space-y-4">
+  <div>
+    <p className="text-4xl font-bold">Heading 1 (text-4xl)</p>
+    <code className="text-sm text-gray-500">text-4xl font-bold</code>
+  </div>
+  
+  <div>
+    <p className="text-3xl font-bold">Heading 2 (text-3xl)</p>
+    <code className="text-sm text-gray-500">text-3xl font-bold</code>
+  </div>
+  
+  <div>
+    <p className="text-2xl font-bold">Heading 3 (text-2xl)</p>
+    <code className="text-sm text-gray-500">text-2xl font-bold</code>
+  </div>
+  
+  <div>
+    <p className="text-xl font-bold">Heading 4 (text-xl)</p>
+    <code className="text-sm text-gray-500">text-xl font-bold</code>
+  </div>
+  
+  <div>
+    <p className="text-base">Body (text-base)</p>
+    <code className="text-sm text-gray-500">text-base</code>
+  </div>
+  
+  <div>
+    <p className="text-sm">Small (text-sm)</p>
+    <code className="text-sm text-gray-500">text-sm</code>
+  </div>
+</div>
+
+## Usage Guidelines
+
+### Headers
+
+```tsx
+<h1 className="text-4xl font-bold">Main Header</h1>
+<h2 className="text-3xl font-bold">Section Header</h2>
+<h3 className="text-2xl font-bold">Subsection Header</h3>
+```
+
+### Body Text
+
+```tsx
+<p className="text-base">
+  Default body text using text-base
+</p>
+
+<p className="text-sm text-gray-600">
+  Secondary text using text-sm
+</p>
+```
+
+### Font Weights
+
+- `font-normal`: Regular text (400)
+- `font-medium`: Medium text (500)
+- `font-semibold`: Semibold text (600)
+- `font-bold`: Bold text (700)
+
+### Line Height
+
+```tsx
+<p className="leading-normal">
+  Normal line height (1.5)
+</p>
+
+<p className="leading-relaxed">
+  Relaxed line height (1.625)
+</p>
+
+<p className="leading-loose">
+  Loose line height (2)
+</p>
+```
+
+### Responsive Typography
+
+Our typography is responsive by default:
+
+```tsx
+<h1 className="text-2xl md:text-3xl lg:text-4xl">
+  Responsive heading
+</h1>
+``` 

@@ -1,0 +1,72 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+
+<Meta title="Foundation/Colors" />
+
+# Color System
+
+Our color system is built on semantic tokens that promote consistency and accessibility across the application.
+
+## Brand Colors
+
+Our primary brand colors represent our identity and are used consistently across our interfaces.
+
+<ColorPalette>
+  <ColorItem 
+    title="Brand" 
+    subtitle="Primary brand color"
+    colors={{ 
+      'brand': '#f2930d',
+      'brand-50': '#fff8eb',
+      'brand-100': '#ffecc7',
+      'brand-200': '#ffd98a',
+      'brand-300': '#ffc14d',
+      'brand-400': '#f2930d',
+      'brand-500': '#e68a0b',
+      'brand-600': '#cc7a0a',
+      'brand-700': '#a66208',
+      'brand-800': '#804b06',
+      'brand-900': '#663c05',
+    }} 
+  />
+</ColorPalette>
+
+## Usage Guidelines
+
+### Component States
+
+Use brand colors for different component states:
+
+```tsx
+// Primary actions
+<button className="bg-brand hover:bg-brand-600">
+  Primary Button
+</button>
+
+// Secondary actions
+<button className="bg-brand-100 text-brand-900">
+  Secondary Button
+</button>
+
+// Disabled states
+<button className="bg-brand-100 text-brand-300" disabled>
+  Disabled Button
+</button>
+```
+
+### Accessibility
+
+- Ensure sufficient contrast ratios (WCAG 2.1 AA compliance)
+- Use darker shades (700-900) for text on light backgrounds
+- Use lighter shades (50-100) for text on dark backgrounds
+
+### Dark Mode
+
+All color tokens support dark mode variants:
+
+```tsx
+<div className="bg-brand-50 dark:bg-brand-900">
+  <p className="text-brand-900 dark:text-brand-50">
+    Content
+  </p>
+</div>
+``` 

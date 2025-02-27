@@ -1,0 +1,108 @@
+import { Meta, Canvas, Story } from '@storybook/blocks';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+The Button component is used for actions, emphasizing their importance in the interface.
+
+## Features
+
+- Multiple variants (primary, secondary, outline)
+- Different sizes (sm, md, lg)
+- Loading state with spinner
+- Disabled state
+- Customizable via className
+
+## Usage
+
+```tsx
+import { Button } from '@1106enzo/ui/components/actions/Button';
+
+// Basic usage
+<Button>Click me</Button>
+
+// With variant and size
+<Button variant="primary" size="lg">
+  Large Primary Button
+</Button>
+
+// Loading state
+<Button loading>Processing...</Button>
+
+// Disabled state
+<Button disabled>Cannot click</Button>
+```
+
+## Accessibility
+
+The Button component follows WAI-ARIA guidelines:
+
+- Uses native `button` element
+- Maintains focus styles for keyboard navigation
+- Provides loading state indication
+- Properly handles disabled states
+- Includes aria-label for loading spinner
+
+## Responsive Behavior
+
+The button adapts to different screen sizes:
+- Text size adjusts based on the button size
+- Padding scales appropriately
+- Touch targets remain accessible on mobile
+
+## Design Guidelines
+
+1. **Usage**
+   - Use primary for main actions
+   - Use secondary for alternative actions
+   - Use outline for less emphasis
+
+2. **Placement**
+   - Align with reading direction
+   - Maintain consistent spacing
+   - Group related buttons
+
+3. **States**
+   - Clear hover/focus states
+   - Loading state for async actions
+   - Disabled when unavailable
+
+## Examples
+
+### Basic Variants
+
+<Canvas>
+  <Story of={ButtonStories.Primary} />
+  <Story of={ButtonStories.Secondary} />
+  <Story of={ButtonStories.Outline} />
+</Canvas>
+
+### Sizes
+
+<Canvas>
+  <Story of={ButtonStories.Small} />
+  <Story of={ButtonStories.Large} />
+</Canvas>
+
+### States
+
+<Canvas>
+  <Story of={ButtonStories.Loading} />
+  <Story of={ButtonStories.Disabled} />
+</Canvas>
+
+### Recipe Examples
+
+<Canvas>
+  <Story of={ButtonStories.ButtonGroup} />
+</Canvas>
+
+<Canvas>
+  <Story of={ButtonStories.SizeComparison} />
+</Canvas>
+
+<Canvas>
+  <Story of={ButtonStories.CallToAction} />
+</Canvas> 
