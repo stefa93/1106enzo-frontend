@@ -8,6 +8,7 @@ interface ButtonProps {
   loading?: boolean;
   onClick?: () => void;
   className?: string;
+  'data-testid'?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -18,6 +19,7 @@ export const Button: React.FC<ButtonProps> = ({
   loading = false,
   onClick,
   className = '',
+  'data-testid': dataTestId,
 }) => {
   const baseStyles =
     'rounded font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
@@ -45,6 +47,7 @@ export const Button: React.FC<ButtonProps> = ({
     onClick: !isDisabled ? onClick : undefined,
     disabled: isDisabled,
     'aria-disabled': isDisabled,
+    'data-testid': dataTestId,
   };
 
   return (
