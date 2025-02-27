@@ -79,26 +79,37 @@ describe('UITest Component', () => {
     const successButton = screen.getByTestId('show-success-toast');
     const errorButton = screen.getByTestId('show-error-toast');
 
-    // Check success button styles
+    // Check success button styles (primary variant)
     expect(successButton).toHaveClass(
+      'rounded',
+      'font-medium',
+      'transition-colors',
+      'focus:outline-none',
+      'focus:ring-2',
+      'focus:ring-offset-2',
+      'bg-brand',
+      'hover:bg-brand-600',
+      'text-white',
+      'focus:ring-brand-500',
       'px-4',
       'py-2',
-      'bg-green-500',
-      'text-white',
-      'rounded',
-      'hover:bg-green-600',
-      'transition-colors'
+      'text-base'
     );
 
-    // Check error button styles
+    // Check error button styles (outline variant with custom colors)
     expect(errorButton).toHaveClass(
-      'px-4',
-      'py-2',
+      'rounded',
+      'font-medium',
+      'transition-colors',
+      'focus:outline-none',
+      'focus:ring-2',
+      'focus:ring-offset-2',
       'bg-red-500',
       'text-white',
-      'rounded',
       'hover:bg-red-600',
-      'transition-colors'
+      'px-4',
+      'py-2',
+      'text-base'
     );
   });
 
