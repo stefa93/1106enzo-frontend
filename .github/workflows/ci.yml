@@ -191,13 +191,28 @@ jobs:
           node-version: 18
           cache: 'pnpm'
 
-      - name: Restore dependencies
-        uses: actions/cache/restore@v4
+      # Cache the Cypress binary
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
         with:
-          path: |
-            **/node_modules
-            ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-cypress-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Restore build
         uses: actions/cache/restore@v4
@@ -211,10 +226,7 @@ jobs:
       # Start Strapi for backend and integration tests
       - name: Start Strapi
         if: matrix.containers != 'frontend'
-        run: |
-          cd apps/strapi
-          pnpm start &
-          sleep 10
+        run: pnpm run start:strapi &
         env:
           APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
           API_TOKEN_SALT: 11111111111111111111111111111111
@@ -237,7 +249,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           working-directory: .
-          install: false
+          install: true
           browser: chrome
           config-file: cypress.config.ts
           spec: cypress/e2e/${{ matrix.containers }}/**/*.cy.ts
@@ -246,6 +258,7 @@ jobs:
           wait-on-timeout: 120
         env:
           NODE_ENV: test
+          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
           # Always set these for all test types
           NEXT_PUBLIC_STRAPI_URL: http://localhost:1337
           # Unified environment variables

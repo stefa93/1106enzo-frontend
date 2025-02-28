@@ -22,9 +22,4 @@ export default defineConfig({
     },
     include: ['src/**/*.{test,spec}.{js,ts}', 'tests/**/*.{test,spec}.{js,ts}'],
   },
-  resolve: {
-    alias: {
-      dotenv: 'dotenv',
-    },
-  },
 });
