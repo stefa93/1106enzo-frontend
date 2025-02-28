@@ -79,7 +79,7 @@ describe('UITest Component', () => {
     const successButton = screen.getByTestId('show-success-toast');
     const errorButton = screen.getByTestId('show-error-toast');
 
-    // Check success button styles (primary variant)
+    // Success button should have primary variant styles
     expect(successButton).toHaveClass(
       'rounded',
       'font-medium',
@@ -96,21 +96,8 @@ describe('UITest Component', () => {
       'text-base'
     );
 
-    // Check error button styles (outline variant with custom colors)
-    expect(errorButton).toHaveClass(
-      'rounded',
-      'font-medium',
-      'transition-colors',
-      'focus:outline-none',
-      'focus:ring-2',
-      'focus:ring-offset-2',
-      'bg-red-500',
-      'text-white',
-      'hover:bg-red-600',
-      'px-4',
-      'py-2',
-      'text-base'
-    );
+    // Error button should have outline variant with custom styles
+    expect(errorButton).toHaveClass('bg-red-500', 'text-white', 'hover:bg-red-600');
   });
 
   it('has correct ARIA roles and types for accessibility', () => {

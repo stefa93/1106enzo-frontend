@@ -98,7 +98,5 @@ build/
 
 mcp-tools/
 
-# pnpm
-
 # storybook
 storybook-static/
