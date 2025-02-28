@@ -44,9 +44,10 @@
 pre-commit:
   parallel: true
   commands:
-    linting:
-      glob: "*.{js,jsx,ts,tsx,md,json}"
-      run: npx lint-staged
+    verify-deps:
+      run: pnpm install --frozen-lockfile
+    code-quality:
+      run: npx biome ci .
     tests:
       run: npm run test:ci
 

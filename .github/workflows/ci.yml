@@ -211,7 +211,10 @@ jobs:
       # Start Strapi for backend and integration tests
       - name: Start Strapi
         if: matrix.containers != 'frontend'
-        run: pnpm run start:strapi &
+        run: |
+          cd apps/strapi
+          pnpm start &
+          sleep 10
         env:
           APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
           API_TOKEN_SALT: 11111111111111111111111111111111
@@ -233,6 +236,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
+          working-directory: .
+          install: false
           browser: chrome
           config-file: cypress.config.ts
           spec: cypress/e2e/${{ matrix.containers }}/**/*.cy.ts
@@ -241,7 +246,6 @@ jobs:
           wait-on-timeout: 120
         env:
           NODE_ENV: test
-          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
           # Always set these for all test types
           NEXT_PUBLIC_STRAPI_URL: http://localhost:1337
           # Unified environment variables
