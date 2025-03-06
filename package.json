@@ -14,18 +14,19 @@
     "release": "standard-version",
     "cypress": "cypress open",
     "cypress:headless": "cypress run",
-    "start:web": "npm run dev --workspace=@enzo/web",
-    "start:strapi": "npm run dev --workspace=@enzo/strapi",
+    "start:web": "pnpm --filter @enzo/web run dev",
+    "start:strapi": "pnpm --filter @enzo/strapi run dev",
+    "storybook": "pnpm --filter @enzo/storybook run storybook",
+    "build:storybook": "pnpm --filter @enzo/storybook run build:storybook",
     "cypress:dev": "start-test start:strapi http://localhost:1337/admin/init start:web http-get://localhost:3000-3010 'cypress open'",
     "test:e2e": "start-server-and-test 'turbo run dev' 'http-get://localhost:3000-3010 http://localhost:1337' cypress",
     "test:e2e:headless": "start-server-and-test 'turbo run dev' 'http-get://localhost:3000-3010 http://localhost:1337' cypress:headless",
-    "test:e2e:frontend": "start-server-and-test 'npm run dev --workspace=@enzo/web' http-get://localhost:3000-3010 'cypress run --spec \"cypress/e2e/frontend/**/*.cy.ts\"'",
-    "test:e2e:backend": "start-server-and-test 'npm run dev --workspace=@enzo/strapi' http://localhost:1337 'cypress run --config baseUrl=http://localhost:1337 --spec \"cypress/e2e/backend/**/*.cy.ts\"'",
+    "test:e2e:frontend": "start-server-and-test 'pnpm --filter=@enzo/web run dev' http-get://localhost:3000-3010 'cypress run --spec \"cypress/e2e/frontend/**/*.cy.ts\"'",
+    "test:e2e:backend": "start-server-and-test 'pnpm --filter=@enzo/strapi run dev' http://localhost:1337 'cypress run --config baseUrl=http://localhost:1337 --spec \"cypress/e2e/backend/**/*.cy.ts\"'",
     "test:e2e:integration": "start-test start:strapi http://localhost:1337 start:web http-get://localhost:3000-3010 'cypress run --spec \"cypress/e2e/integration/**/*.cy.ts\"'",
-    "storybook": "npm run storybook --workspace=@enzo/web",
-    "build-storybook": "npm run build-storybook --workspace=@enzo/web",
-    "test:storybook": "start-server-and-test 'npm run storybook --workspace=@enzo/web' http://localhost:6006 'cypress run --config baseUrl=http://localhost:6006 --spec \"cypress/e2e/storybook/**/*.cy.ts\"'",
-    "test:storybook:open": "start-server-and-test 'npm run storybook --workspace=@enzo/web' http://localhost:6006 'cypress open --e2e --config baseUrl=http://localhost:6006'"
+    "test:e2e:storybook": "start-server-and-test 'pnpm run storybook' http://localhost:6006 'cypress run --config baseUrl=http://localhost:6006 --spec \"cypress/e2e/storybook/**/*.cy.ts\"'",
+    "test:e2e:storybook:open": "start-server-and-test 'pnpm run storybook' http://localhost:6006 'cypress open --e2e --config baseUrl=http://localhost:6006,specPattern=\"cypress/e2e/storybook/**/*.cy.ts\"'",
+    "test:e2e:storybook:component": "start-server-and-test 'pnpm run storybook' http://localhost:6006 'cypress run --config baseUrl=http://localhost:6006 --spec \"cypress/e2e/storybook/**/*.cy.ts\"'"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md,json}": ["biome format --write", "biome lint"]
@@ -36,14 +37,16 @@
     "@commitlint/config-conventional": "^19.0.3",
     "@evilmartians/lefthook": "^1.6.4",
     "@testing-library/cypress": "^10.0.3",
+    "axe-core": "^4.10.2",
     "cypress": "^14.0.3",
+    "cypress-axe": "^1.6.0",
     "lint-staged": "^15.2.2",
     "standard-version": "^9.5.0",
     "start-server-and-test": "^2.0.10",
     "turbo": "latest",
     "wait-on": "^7.2.0"
   },
-  "packageManager": "npm@10.2.4",
+  "packageManager": "pnpm@8.15.4",
   "engines": {
     "node": ">=18.0.0"
   }
