@@ -25,22 +25,26 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.4
           
       - name: Cache dependencies
         uses: actions/cache@v4
-        id: npm-cache
+        id: pnpm-cache
         with:
           path: |
             **/node_modules
-            ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+            ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-pnpm-
 
       - name: Install dependencies
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm ci
+        if: steps.pnpm-cache.outputs.cache-hit != 'true'
+        run: pnpm install
 
       - name: Cache Turbo
         uses: actions/cache@v4
@@ -51,7 +55,7 @@ jobs:
             ${{ runner.os }}-turbo-
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Save build output
         uses: actions/cache/save@v4
@@ -73,18 +77,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.4
 
       - name: Restore dependencies
         uses: actions/cache/restore@v4
         with:
           path: |
             **/node_modules
-            ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+            ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Run unit tests with coverage
-        run: npm run test:coverage
+        run: pnpm run test:coverage
         env:
           NODE_ENV: test
 
@@ -137,15 +145,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.4
 
       - name: Restore dependencies
         uses: actions/cache/restore@v4
         with:
           path: |
             **/node_modules
-            ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+            ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Restore build
         uses: actions/cache/restore@v4
@@ -159,7 +171,7 @@ jobs:
       # Start Strapi for backend and integration tests
       - name: Start Strapi
         if: matrix.containers != 'frontend'
-        run: npm run start:strapi &
+        run: pnpm run start:strapi &
         env:
           APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
           API_TOKEN_SALT: 11111111111111111111111111111111
@@ -175,7 +187,7 @@ jobs:
         if: matrix.containers != 'backend'
         env:
           NEXT_PUBLIC_STRAPI_URL: http://localhost:1337
-        run: npm run start:web &
+        run: pnpm run start:web &
 
       # Run Cypress tests
       - name: Cypress run
