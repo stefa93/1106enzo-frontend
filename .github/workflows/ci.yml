@@ -182,7 +182,9 @@ jobs:
       # Start Strapi for backend and integration tests
       - name: Start Strapi
         if: matrix.containers != 'frontend'
-        run: pnpm run start:strapi &
+        run: |
+          cd apps/strapi
+          NODE_ENV=test pnpm run start &
         env:
           APP_KEYS: test-key-1,test-key-2,test-key-3,test-key-4
           API_TOKEN_SALT: 11111111111111111111111111111111
