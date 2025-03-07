@@ -38,13 +38,15 @@ jobs:
           path: |
             **/node_modules
             ~/.pnpm-store
+            ~/.cache/Cypress
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
 
       - name: Install dependencies
-        if: steps.pnpm-cache.outputs.cache-hit != 'true'
-        run: pnpm install
+        run: |
+          pnpm config set node-linker hoisted
+          pnpm install --frozen-lockfile
 
       - name: Cache Turbo
         uses: actions/cache@v4
@@ -89,10 +91,13 @@ jobs:
           path: |
             **/node_modules
             ~/.pnpm-store
+            ~/.cache/Cypress
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Run unit tests with coverage
-        run: pnpm run test:coverage
+        run: |
+          pnpm config set node-linker hoisted
+          pnpm run test:coverage
         env:
           NODE_ENV: test
 
@@ -157,6 +162,7 @@ jobs:
           path: |
             **/node_modules
             ~/.pnpm-store
+            ~/.cache/Cypress
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Restore build
@@ -167,6 +173,11 @@ jobs:
             apps/strapi/dist
             apps/strapi/build
           key: build-${{ github.sha }}
+
+      - name: Install Cypress
+        run: |
+          pnpm config set node-linker hoisted
+          pnpm exec cypress install
 
       # Start Strapi for backend and integration tests
       - name: Start Strapi
@@ -199,6 +210,7 @@ jobs:
           config: baseUrl=${{ matrix.containers == 'backend' && 'http://localhost:1337' || 'http://localhost:3000' }}
           wait-on: ${{ matrix.containers == 'frontend' && 'http://localhost:3000' || matrix.containers == 'backend' && 'http://localhost:1337' || 'http://localhost:3000,http://localhost:1337' }}
           wait-on-timeout: 120
+          install: false
         env:
           NODE_ENV: test
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
