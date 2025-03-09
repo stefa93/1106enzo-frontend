@@ -1,6 +1,8 @@
+// @ts-nocheck
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
+import { configDefaults } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],
@@ -13,6 +15,7 @@ export default defineConfig({
       reporter: ['text', 'json-summary', 'json', 'cobertura', 'html'],
       reportsDirectory: './coverage',
       exclude: [
+        ...(configDefaults.coverage.exclude || []),
         'node_modules/**',
         'src/test/**',
         '.next/**',

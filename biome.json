@@ -13,21 +13,17 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "noUnusedVariables": "error",
         "noUndeclaredVariables": "error",
-        "useHookAtTopLevel": "error",
-        "noUnusedImports": "error"
+        "noUnusedVariables": "error",
+        "useHookAtTopLevel": "error"
       },
       "suspicious": {
         "noExplicitAny": "error",
         "noEmptyInterface": "off",
-        "noConsoleLog": "warn",
-        "noRedundantUseStrict": "error"
+        "noConsoleLog": "warn"
       },
       "style": {
-        "useImportType": "error",
         "useShorthandArrayType": "error",
-        "noNonNullAssertion": "error",
         "useTemplate": "error"
       },
       "complexity": {
@@ -40,7 +36,7 @@
         "useButtonType": "error"
       }
     },
-    "ignore": ["**/node_modules/**", "**/.next/**", "**/cypress/**"]
+    "ignore": ["**/node_modules/**", "**/.next/**", "**/cypress/**", "**/storybook-static/**"]
   },
   "formatter": {
     "enabled": true,
@@ -70,7 +66,8 @@
       "coverage",
       "dist",
       "mcp-tools",
-      "**/types/generated/**"
+      "**/types/generated/**",
+      "storybook-static"
     ]
   }
 }

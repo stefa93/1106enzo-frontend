@@ -16,12 +16,12 @@
     "cypress:headless": "cypress run",
     "start:web": "pnpm run dev --filter=@enzo/web",
     "start:strapi": "pnpm run dev --filter=@enzo/strapi",
-    "cypress:dev": "start-test start:strapi http://localhost:1337/admin/init start:web http-get://localhost:3000-3010 'cypress open'",
-    "test:e2e": "start-server-and-test 'turbo run dev' 'http-get://localhost:3000-3010 http://localhost:1337' cypress",
-    "test:e2e:headless": "start-server-and-test 'turbo run dev' 'http-get://localhost:3000-3010 http://localhost:1337' cypress:headless",
-    "test:e2e:frontend": "start-server-and-test 'pnpm run dev --filter=@enzo/web' http-get://localhost:3000-3010 'cypress run --spec \"cypress/e2e/frontend/**/*.cy.ts\"'",
+    "cypress:dev": "start-test start:strapi http://localhost:1337/admin/init start:web http://localhost:3000 'cypress open'",
+    "test:e2e": "start-server-and-test 'turbo run dev' 'http://localhost:3000 http://localhost:1337' cypress",
+    "test:e2e:headless": "start-server-and-test 'turbo run dev' 'http://localhost:3000 http://localhost:1337' cypress:headless",
+    "test:e2e:frontend": "start-server-and-test 'pnpm run dev --filter=@enzo/web' http://localhost:3000 'cypress run --spec \"cypress/e2e/frontend/**/*.cy.ts\"'",
     "test:e2e:backend": "start-server-and-test 'pnpm run dev --filter=@enzo/strapi' http://localhost:1337 'cypress run --config baseUrl=http://localhost:1337 --spec \"cypress/e2e/backend/**/*.cy.ts\"'",
-    "test:e2e:integration": "start-test start:strapi http://localhost:1337 start:web http-get://localhost:3000-3010 'cypress run --spec \"cypress/e2e/integration/**/*.cy.ts\"'"
+    "test:e2e:integration": "start-test start:strapi http://localhost:1337 start:web http://localhost:3000 'cypress run --spec \"cypress/e2e/integration/**/*.cy.ts\"'"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md,json}": ["biome format --write", "biome lint"]

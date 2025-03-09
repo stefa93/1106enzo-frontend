@@ -101,3 +101,7 @@ mcp-tools/
 # pnpm
 .pnpm-store/
 .pnpm-debug.log
+*storybook.log
+
+# Storybook
+storybook-static/
