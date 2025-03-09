@@ -56,7 +56,7 @@ pre-commit:
           echo "Skipping tests"
           exit 0
         else
-          pnpm --filter=@enzo/web run test:ci
+          pnpm -r run test:ci
         fi
 
 commit-msg:
