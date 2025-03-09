@@ -7,9 +7,9 @@ export default function Home() {
     <main className="flex min-h-screen flex-col p-24">
       <div className="space-y-8">
         <div className="space-y-4">
-          <Button primary label="Primary Button Example" />
+          <Button variant="default">Primary Button Example</Button>
           <div>
-            <Button label="Secondary Button Example" />
+            <Button variant="secondary">Secondary Button Example</Button>
           </div>
         </div>
         <UITest />

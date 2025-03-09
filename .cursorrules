@@ -2,7 +2,7 @@
 - Use functional components with `"use client"` if needed.
 - Name in PascalCase under `src/components/`.
 - Keep components small and typed with interfaces.
-- Use Tailwind for common UI components like `textarea`, `button`, etc. Never use radix or shadcn.
+- Use Tailwind for common UI components like `textarea`, `button`, etc.Use radix or shadcn.
 
 ## Icons
 - Prefer `lucide-react`; name icons in PascalCase.
