@@ -45,15 +45,25 @@ pre-commit:
   parallel: true
   commands:
     linting:
-      glob: "*.{js,jsx,ts,tsx,md,json}"
-      run: npx lint-staged
+      glob: "*.{js,ts,jsx,tsx}"
+      run: pnpm biome check {staged_files}
     tests:
-      run: npm run test:ci
+      skip:
+        - merge
+        - rebase
+      run: |
+        if [ "$SKIP_TESTS" = "true" ]; then
+          echo "Skipping tests"
+          exit 0
+        else
+          pnpm test
+        fi
 
 commit-msg:
+  parallel: true
   commands:
     commitlint:
-      run: npx --no -- commitlint --edit {1}
+      run: pnpm commitlint --edit {1}
 
 pre-push:
   commands:
