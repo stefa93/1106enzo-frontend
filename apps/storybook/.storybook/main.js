@@ -23,6 +23,14 @@ const config = {
   docs: {
     autodocs: 'tag',
   },
+  webpackFinal: async (config) => {
+    // Add support for absolute imports
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@enzo/ui': join(__dirname, '../../../packages/ui/src'),
+    };
+    return config;
+  },
 };
 
 export default config;
